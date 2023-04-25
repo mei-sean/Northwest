@@ -6,10 +6,6 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-@login_required
-def home(request):
-    return HttpResponse("Welcome to Northwest Airlines!")
-
 def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
@@ -20,10 +16,6 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'reservations/register.html', {'form': form})
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
 
 
 def login_view(request):
@@ -42,16 +34,28 @@ def login_view(request):
         form = AuthenticationForm()
     return render(request, 'reservations/login.html', {'form': form})
 
+@login_required
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required
+def home(request):
+    return render(request, 'reservations/home.html')
+
+@login_required
+def welcome(request):
+    return render(request, 'reservations/welcome.html')
 
 @login_required
 def my_account(request):
-    return HttpResponse("My Account")
+    return render(request, 'reservations/my_account.html')
 
 @login_required
 def calendar(request):
-    return HttpResponse("Calendar")
+    return render(request, 'reservations/calendar.html')
 
 @login_required
 def manage_reservations(request):
-    return HttpResponse("Manage Reservations")
+    return render(request, 'reservations/manage_reservations.html')
 
