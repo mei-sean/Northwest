@@ -5,6 +5,8 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from .models import Airport
+
 
 def register(request):
     if request.method == 'POST':
@@ -52,8 +54,45 @@ def my_account(request):
     return render(request, 'reservations/my_account.html')
 
 @login_required
-def calendar(request):
-    return render(request, 'reservations/calendar.html')
+def search(request):
+    if request.method == 'GET': 
+        airports = Airport.objects.all()
+        return render(request, 'reservations/search.html', {'airports': airports})
+
+    if request.method == 'POST':
+        '''depart_airport_code = request.POST['depart_airport']
+        destination_airport_code = request.POST['destination_airport']
+        departure_date = request.POST['departure_date']
+        is_round = request.POST['roundtrip']
+        return_date = request.POST.get('return_date', None)
+
+        depart_airport = Airport.objects.get(code=depart_airport_code)
+        destination_airport = Airport.objects.get(code=destination_airport_code)
+
+        flights = Flight.objects.filter(
+            depart_airport=depart_airport,
+            destination_airport=destination_airport,
+            departure_date=departure_date,
+        )
+
+        if is_round:
+            return_flights = Flight.objects.filter(
+                depart_airport=destination_airport,
+                destination_airport=depart_airport,
+                departure_date=request.POST['return_date'],
+            )
+        else:
+            return_flights = None
+
+        return render(request, 'northwest/flights_list.html', {
+            'depart_airport': depart_airport,
+            'destination_airport': destination_airport,
+            'departure_date': departure_date,
+            'return_date': return_date,
+            'flights': flights,
+            'return_flights': return_flights,
+        })'''
+        return render(request, 'reservations/flights_list.html')
 
 @login_required
 def manage_reservations(request):
