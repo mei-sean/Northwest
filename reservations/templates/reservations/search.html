@@ -1,0 +1,69 @@
+{% extends 'base.html' %} {% block title %} Search Flight {% endblock %} 
+{%block content %}
+
+<div class="container">
+  <h1>Search Flight</h1>
+  <form method="POST" >
+    {% csrf_token %}
+        <div class="form-group">
+            <label for="depart_airport">Depart From</label>
+            <select class="form-control" id="depart_airport" name="depart_airport" required>
+                {% for airport in airports %}
+                    <option value="{{ airport.code }}">{{ airport }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="destination_airport">Destination Airport</label>
+            <select class="form-control" id="destination_airport" name="destination_airport" required>
+                {% for airport in airports %}
+                    <option value="{{ airport.code }}">{{ airport }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    <div class="form-group">
+      <label for="depart">Depart</label>
+      <input
+        type="date"
+        class="form-control"
+        id="depart"
+        name="depart"
+        required
+      />
+    </div>
+    
+    
+    <script> function toggleInput() {
+      var checkbox = document.getElementById("myCheckbox");
+      var input = document.getElementById("myInput");
+      if (checkbox.checked == true) {
+        input.style.display = "block";
+      } else {
+        input.style.display = "none";
+      }
+    }
+    </script>
+    <input type="checkbox" id="myCheckbox" onchange="toggleInput()">
+    <label for="myCheckbox">Round-trip</label>
+    <div class="form-group" style="display:none;" id='myInput'>
+      <label for="return">Return</label>
+      <input type="date" class="form-control" id="return" name="return" />
+    </div>
+    
+    
+    <div class="form-group">
+      <label for="tickets">Number of Tickets</label>
+      <input
+        type="number"
+        class="form-control"
+        id="tickets"
+        name="tickets"
+        min="1"
+        max="10"
+        value="1"
+      />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+  </form>
+</div>
+{% endblock %}
