@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
+from .forms import BootstrapAuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
@@ -23,7 +23,7 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = BootstrapAuthenticationForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -34,7 +34,7 @@ def login_view(request):
             else:
                 form.add_error(None, 'Invalid username or password.')
     else:
-        form = AuthenticationForm()
+        form = BootstrapAuthenticationForm()
     return render(request, 'reservations/login.html', {'form': form})
 
 @login_required
