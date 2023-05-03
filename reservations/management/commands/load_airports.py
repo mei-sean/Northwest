@@ -10,5 +10,5 @@ class Command(BaseCommand):
             reader = csv.reader(f)
             next(reader)  # skip header row
             for row in reader:
-                code, name, city, state = row
-                Airport.objects.create(code=code, name=name, city=city, state=state)
+                code, name, city, state, latitude, longitude = row
+                Airport.objects.create(code=code, name=name, city=city, state=state, latitude=latitude, longitude=longitude)

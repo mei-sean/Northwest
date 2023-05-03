@@ -66,16 +66,13 @@ def search(request):
         departure_date = request.POST['departure_date']
         is_round = request.POST['roundtrip']
         return_date = request.POST.get('return_date', None)
-
         depart_airport = Airport.objects.get(code=depart_airport_code)
         destination_airport = Airport.objects.get(code=destination_airport_code)
-
         flights = Flight.objects.filter(
             depart_airport=depart_airport,
             destination_airport=destination_airport,
             departure_date=departure_date,
         )
-
         if is_round:
             return_flights = Flight.objects.filter(
                 depart_airport=destination_airport,
@@ -84,7 +81,6 @@ def search(request):
             )
         else:
             return_flights = None
-
         return render(request, 'northwest/flights_list.html', {
             'depart_airport': depart_airport,
             'destination_airport': destination_airport,
@@ -98,4 +94,3 @@ def search(request):
 @login_required
 def manage_reservations(request):
     return render(request, 'reservations/manage_reservations.html')
-
