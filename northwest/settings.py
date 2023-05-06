@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'northwest.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'northwest.db',
     }
 }
 
@@ -124,3 +124,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # redirect to login page after success
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
