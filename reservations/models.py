@@ -1,7 +1,8 @@
 from django.db import models
 from django.conf import settings
 from geopy.distance import geodesic
-import datetime
+from datetime import datetime, timedelta
+from django.contrib.auth.models import User
 
 
 class Airport(models.Model):
@@ -24,8 +25,8 @@ class Week(models.Model):
 class Flight(models.Model):
     depart_airport = models.ForeignKey(Airport, related_name='depart_flights', on_delete=models.CASCADE)
     arrival_airport = models.ForeignKey(Airport, related_name='arrival_flights', on_delete=models.CASCADE)
-    depart_time = models.DateTimeField(default=datetime.timedelta(0))
-    arrival_time = models.DateTimeField(default=datetime.timedelta(0))
+    depart_time = models.DateTimeField(default=timedelta(0))
+    arrival_time = models.DateTimeField(default=timedelta(0))
     duration = models.DurationField()
     distance = models.FloatField()
     price = models.FloatField()
@@ -45,7 +46,33 @@ class Flight(models.Model):
         super(Flight, self).save(*args, **kwargs)
 
     def check_seats(self):
-        return self.seats < 250
+        return self.seats < 500
+    
+class Passenger(models.Model):
+    first_name =  models.CharField(max_length=20)
+    last_name =  models.CharField(max_length=20)
+    email = models.EmailField(max_length=30, null=True)
+    dob = models.DateField(null=True)
+
+    def __str__(self):
+        return f"Passenger: {self.first_name} {self.last_name}"
+    
+class Ticket(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    depart_flight = models.ForeignKey(Flight, on_delete=models.CASCADE, related_name='depart')
+    return_flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True, default=None,  related_name='return_ticket')
+    passengers = models.ManyToManyField(Passenger)
+    total_cost = models.DecimalField(max_digits=8, decimal_places=2)
+    date_created = models.DateTimeField(auto_now_add=True)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.passengers} - {self.depart_flight}"
+
+
+
+
+
     
 
 
