@@ -1,15 +1,16 @@
 {% extends 'base.html' %} {% block title %} Manage Reservations {% endblock %}
 {% block content %}
-<div class="container mt-4">
-  <h2 class="mb-4">Manage Reservations</h2>
-  {% if tickets %}
+<div class="container">
+  <h2 class="text-center mt-4">Manage Reservations</h2>
+  <hr />
   <table class="table table-bordered">
     <thead>
       <tr>
-        <th scope="col">Departure</th>
-        <th scope="col">Arrival</th>
+        <th scope="col">Departure Airport</th>
+        <th scope="col">Arrival Airport</th>
         <th scope="col">Departure Date</th>
         <th scope="col">Return Date</th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -17,18 +18,22 @@
       <tr>
         <td>{{ ticket.depart_flight.depart_airport }}</td>
         <td>{{ ticket.depart_flight.arrival_airport }}</td>
-        <td>{{ ticket.depart_flight.departure_time.date|date:"Y-m-d" }}</td>
+        <td>{{ ticket.depart_flight.depart_time.date|date:"Y-m-d" }}</td>
         <td>
           {% if ticket.return_flight %} {{
-          ticket.return_flight.departure_time.date|date:"Y-m-d" }} {% else %}
-          N/A {% endif %}
+          ticket.return_flight.depart_time.date.strftime("%Y-%m-%d") }} {% else
+          %} This is a one-way flight. {% endif %}
+        </td>
+        <td>
+          <a
+            href="{% url 'cancel_reservation' ticket.id %}"
+            class="btn btn-danger"
+            >Cancel</a
+          >
         </td>
       </tr>
       {% endfor %}
     </tbody>
   </table>
-  {% else %}
-  <p>You have no reservations.</p>
-  {% endif %}
 </div>
 {% endblock %}

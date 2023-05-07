@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from .models import Airport, Flight, Passenger, Ticket
 from decimal import Decimal
+from django.contrib import messages
 
 from datetime import datetime
 
@@ -194,7 +195,7 @@ def payment_view(request, ticket_id):
         ticket.paid = True
         ticket.save()
         
-        return HttpResponse("Payment successful!")
+        return redirect('manage_reservations')
     
     else:
         passengers = ticket.passengers.all()
@@ -205,4 +206,15 @@ def manage_reservations(request):
     user_tickets = Ticket.objects.filter(user=request.user, paid=True)
     return render(request, 'reservations/manage_reservations.html', {'tickets': user_tickets})
 
+@login_required
+def cancel_reservation(request, ticket_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+    
+    # Ensure the ticket belongs to the requesting user
+    if ticket.user != request.user:
+        return HttpResponseForbidden("You do not have permission to cancel this reservation.")
+    
+    ticket.delete()
+    messages.success(request, 'Your reservation has been successfully canceled.')
+    return redirect('manage_reservations')
 
