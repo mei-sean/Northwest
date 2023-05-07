@@ -1,16 +1,14 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
-from django.shortcuts import render, redirect, reverse
-from django.contrib.auth.decorators import login_required
-from .models import Airport, Flight, Passenger, Ticket
-from decimal import Decimal
 from django.contrib import messages
-
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, reverse
+from django.http import HttpResponse, HttpResponseRedirect
+from decimal import Decimal
+from .models import Airport, Flight, Passenger, Ticket
 from datetime import datetime
-
+from .forms import UpdateUserForm, CustomPasswordChangeForm
 
 def register(request):
     if request.method == 'POST':
@@ -22,7 +20,6 @@ def register(request):
     else:
         form = UserCreationForm()
     return render(request, 'reservations/register.html', {'form': form})
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -59,8 +56,6 @@ def my_account(request):
 
 @login_required
 def search(request):
-    
-
     if request.method == 'POST':
         #on post we request the airports and date, 
         depart_airport_code = request.POST['depart_airport']
@@ -75,7 +70,6 @@ def search(request):
             airports = Airport.objects.all()
             return render(request, 'reservations/search.html', {'airports': airports, 'error_message': error_message})
         
-        
         #we redirect the user to the list of flights based on the searh
         redirect_url = reverse('list_flights') + f'?depart_airport_code={depart_airport_code}&arrival_airport_code={arrival_airport_code}&departure_date={departure_date}&tickets={tickets}'
         if return_date:
@@ -88,7 +82,6 @@ def search(request):
         airports = Airport.objects.all()
         return render(request, 'reservations/search.html', {'airports': airports, 'error_message': error_message})
     
-
 @login_required
 def list_flights(request):
     #function to list flights
@@ -113,7 +106,6 @@ def list_flights(request):
 
         departure_date = datetime.strptime(departure_date_str, '%Y-%m-%d').date()
         
-
         flights = Flight.objects.filter(
             depart_airport=depart_airport,
             arrival_airport=arrival_airport,
@@ -133,7 +125,6 @@ def list_flights(request):
 
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date})
         
-
 def calculate_total_cost(depart_flight, return_flight, num_passengers):
     #Calculates the total cost of a ticket based on the flights and number of passengers.
     
@@ -218,3 +209,39 @@ def cancel_reservation(request, ticket_id):
     messages.success(request, 'Your reservation has been successfully canceled.')
     return redirect('manage_reservations')
 
+@login_required
+@login_required
+def update_user(request):
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account has been updated!')
+            return redirect('my_account')
+    else:
+        form = UpdateUserForm(instance=request.user)
+        form.fields['first_name'].initial = request.user.first_name
+        form.fields['last_name'].initial = request.user.last_name
+        form.fields['email'].initial = request.user.email
+        form.fields['birthdate'].initial = request.user.profile.birthdate
+        form.fields['street_address'].initial = request.user.profile.street_address
+        form.fields['zip_code'].initial = request.user.profile.zip_code
+        form.fields['state'].initial = request.user.profile.state
+
+    return render(request, 'reservations/update_user.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password has been updated.')
+            return redirect('my_account')
+        else:
+            messages.error(request, 'Please correct the error(s) below.')
+    else:
+        form = CustomPasswordChangeForm(user=request.user)
+
+    return render(request, 'reservations/change_password.html', {'form': form})
