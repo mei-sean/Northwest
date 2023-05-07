@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
@@ -9,6 +10,23 @@ from decimal import Decimal
 from .models import Airport, Flight, Passenger, Ticket
 from datetime import datetime
 from .forms import UpdateUserForm, CustomPasswordChangeForm
+=======
+from django.shortcuts import render, redirect
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.decorators import login_required
+from .models import Airport, Flight, Passenger, Ticket
+from decimal import Decimal
+from django.contrib import messages
+from datetime import datetime
+from .forms import UpdateUserForm, CustomPasswordChangeForm
+from django.contrib.auth.models import User
+
+
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b
 
 def register(request):
     if request.method == 'POST':
@@ -210,12 +228,16 @@ def cancel_reservation(request, ticket_id):
     return redirect('manage_reservations')
 
 @login_required
+<<<<<<< HEAD
 @login_required
+=======
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b
 def update_user(request):
     if request.method == 'POST':
         form = UpdateUserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
+<<<<<<< HEAD
             messages.success(request, 'Your account has been updated!')
             return redirect('my_account')
     else:
@@ -227,6 +249,12 @@ def update_user(request):
         form.fields['street_address'].initial = request.user.profile.street_address
         form.fields['zip_code'].initial = request.user.profile.zip_code
         form.fields['state'].initial = request.user.profile.state
+=======
+            messages.success(request, 'Your account information has been updated.')
+            return redirect('my_account')
+    else:
+        form = UpdateUserForm(instance=request.user)
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b
 
     return render(request, 'reservations/update_user.html', {'form': form})
 
@@ -244,4 +272,9 @@ def change_password(request):
     else:
         form = CustomPasswordChangeForm(user=request.user)
 
+<<<<<<< HEAD
     return render(request, 'reservations/change_password.html', {'form': form})
+=======
+    return render(request, 'reservations/change_password.html', {'form': form})
+
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b

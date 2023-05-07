@@ -1,4 +1,5 @@
 {% extends 'base.html' %} {% block content %}
+<<<<<<< HEAD
 <h2>My Account</h2>
 <div class="row">
   <div class="col-md-6">
@@ -44,6 +45,45 @@
         <p>Click the button below to change your password.</p>
         <a href="{% url 'change_password' %}" class="btn btn-primary">Change</a>
       </div>
+=======
+<div class="container">
+  <h2 class="text-center mt-4">My Account</h2>
+  <hr />
+  <div class="row">
+    <div class="col-md-6">
+      <label for="first_name">First Name:</label>
+      <p>{{ user.first_name }}</p>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="last_name">Last Name:</label>
+      <p>{{ user.last_name }}</p>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="email">Email:</label>
+      <p>{{ user.email }}</p>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <label for="password">Password:</label>
+      <p>******</p>
+    </div>
+    <div class="col-md-6">
+      <a href="{% url 'change_password' %}" class="btn btn-primary">Change</a>
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b
     </div>
   </div>
 </div>

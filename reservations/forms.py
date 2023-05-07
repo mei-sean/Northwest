@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.models import User
 
+<<<<<<< HEAD
 class CustomPasswordChangeForm(PasswordChangeForm):
     pass
 
@@ -31,3 +32,13 @@ class UpdateUserForm(forms.ModelForm):
         user.profile.state = self.cleaned_data['state']
         user.profile.save()
         return user
+=======
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class CustomPasswordChangeForm(PasswordChangeForm):
+    pass
+>>>>>>> 867e98ef7611eb1adb934afd46e29df1f0c9fc3b
