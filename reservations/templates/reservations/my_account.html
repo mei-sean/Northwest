@@ -1,41 +1,49 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-  <h2 class="text-center mt-4">My Account</h2>
-  <hr />
-  <div class="row">
-    <div class="col-md-6">
-      <label for="first_name">First Name:</label>
-      <p>{{ user.first_name }}</p>
+<h2>My Account</h2>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Personal Information</h5>
+        <table class="table table-sm">
+          <tr>
+            <td>First name:</td>
+            <td>{{ user.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Last name:</td>
+            <td>{{ user.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>Birthdate:</td>
+            <td>{{ user.profile.birthdate }}</td>
+          </tr>
+          <tr>
+            <td>Street Address:</td>
+            <td>{{ user.profile.street_address }}</td>
+          </tr>
+          <tr>
+            <td>Zip Code:</td>
+            <td>{{ user.profile.zip_code }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ user.profile.state }}</td>
+          </tr>
+        </table>
+        <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
+      </div>
     </div>
-    <div class="col-md-6">
-      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <label for="last_name">Last Name:</label>
-      <p>{{ user.last_name }}</p>
-    </div>
-    <div class="col-md-6">
-      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <label for="email">Email:</label>
-      <p>{{ user.email }}</p>
-    </div>
-    <div class="col-md-6">
-      <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-6">
-      <label for="password">Password:</label>
-      <p>******</p>
-    </div>
-    <div class="col-md-6">
-      <a href="{% url 'change_password' %}" class="btn btn-primary">Change</a>
+    <div class="card mt-4">
+      <div class="card-body">
+        <h5 class="card-title">Change Password</h5>
+        <p>Click the button below to change your password.</p>
+        <a href="{% url 'change_password' %}" class="btn btn-primary">Change</a>
+      </div>
     </div>
   </div>
 </div>

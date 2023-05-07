@@ -226,10 +226,17 @@ def update_user(request):
         form = UpdateUserForm(request.POST, instance=request.user)
         if form.is_valid():
             form.save()
-            messages.success(request, 'Your account information has been updated.')
+            messages.success(request, 'Your account has been updated!')
             return redirect('my_account')
     else:
         form = UpdateUserForm(instance=request.user)
+        form.fields['first_name'].initial = request.user.first_name
+        form.fields['last_name'].initial = request.user.last_name
+        form.fields['email'].initial = request.user.email
+        form.fields['birthdate'].initial = request.user.profile.birthdate
+        form.fields['street_address'].initial = request.user.profile.street_address
+        form.fields['zip_code'].initial = request.user.profile.zip_code
+        form.fields['state'].initial = request.user.profile.state
 
     return render(request, 'reservations/update_user.html', {'form': form})
 
