@@ -1,15 +1,17 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from .models import Airport, Flight, Passenger, Ticket
 from decimal import Decimal
 from django.contrib import messages
-
 from datetime import datetime
+from .forms import UpdateUserForm, CustomPasswordChangeForm
+from django.contrib.auth.models import User
+
 
 
 def register(request):
@@ -217,4 +219,33 @@ def cancel_reservation(request, ticket_id):
     ticket.delete()
     messages.success(request, 'Your reservation has been successfully canceled.')
     return redirect('manage_reservations')
+
+@login_required
+def update_user(request):
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your account information has been updated.')
+            return redirect('my_account')
+    else:
+        form = UpdateUserForm(instance=request.user)
+
+    return render(request, 'reservations/update_user.html', {'form': form})
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = CustomPasswordChangeForm(user=request.user, data=request.POST)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Your password has been updated.')
+            return redirect('my_account')
+        else:
+            messages.error(request, 'Please correct the error(s) below.')
+    else:
+        form = CustomPasswordChangeForm(user=request.user)
+
+    return render(request, 'reservations/change_password.html', {'form': form})
 
