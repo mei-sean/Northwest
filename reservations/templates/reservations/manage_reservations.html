@@ -1,5 +1,34 @@
-{% extends "base.html" %} {% block content %}
-<div class="container">
-  <h1>Welcome to the manage reservations page (under construction)!</h1>
+{% extends 'base.html' %} {% block title %} Manage Reservations {% endblock %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Manage Reservations</h2>
+  {% if tickets %}
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Departure</th>
+        <th scope="col">Arrival</th>
+        <th scope="col">Departure Date</th>
+        <th scope="col">Return Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ticket in tickets %}
+      <tr>
+        <td>{{ ticket.depart_flight.depart_airport }}</td>
+        <td>{{ ticket.depart_flight.arrival_airport }}</td>
+        <td>{{ ticket.depart_flight.departure_time.date|date:"Y-m-d" }}</td>
+        <td>
+          {% if ticket.return_flight %} {{
+          ticket.return_flight.departure_time.date|date:"Y-m-d" }} {% else %}
+          N/A {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% else %}
+  <p>You have no reservations.</p>
+  {% endif %}
 </div>
 {% endblock %}

@@ -202,5 +202,7 @@ def payment_view(request, ticket_id):
 
 @login_required
 def manage_reservations(request):
-    return render(request, 'reservations/manage_reservations.html')
+    user_tickets = Ticket.objects.filter(user=request.user, paid=True)
+    return render(request, 'reservations/manage_reservations.html', {'tickets': user_tickets})
+
 
