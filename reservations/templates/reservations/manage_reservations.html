@@ -18,11 +18,10 @@
       <tr>
         <td>{{ ticket.depart_flight.depart_airport }}</td>
         <td>{{ ticket.depart_flight.arrival_airport }}</td>
-        <td>{{ ticket.depart_flight.depart_time.date|date:"Y-m-d" }}</td>
+        <td>{{ ticket.depart_flight.depart_time }}</td>
         <td>
-          {% if ticket.return_flight %} {{
-          ticket.return_flight.depart_time.date.strftime("%Y-%m-%d") }} {% else
-          %} This is a one-way flight. {% endif %}
+          {% if ticket.return_flight %} {{ ticket.return_flight.depart_time }}
+          {% else %} This is a one-way flight. {% endif %}
         </td>
         <td>
           <a
