@@ -1,92 +1,84 @@
-{% extends 'base.html' %} {% block title %} Search Flight {% endblock %} 
-{%block content %}
+{% extends 'base.html' %}
 
-<div class="container">
-  <h1>Search Flight</h1>
-  <form method="POST" >
-    {% csrf_token %}
-        <div class="form-group">
-            <label for="depart_airport">Depart From</label>
-            <select class="form-control" id="depart_airport" name="depart_airport" required>
-                {% for airport in airports %}
-                    <option value="{{ airport.code }}">{{ airport }}</option>
-                {% endfor %}
-            </select>
+{% block title %}Search Flight{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Book your next trip!</h1>
+<div class="card mx-auto" style="max-width: 1200px;">
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+      <div class="form-group row">
+        <div class="col">
+          <label for="depart_airport">Depart From</label>
+          <select class="form-control" id="depart_airport" name="depart_airport" required>
+            {% for airport in airports %}
+            <option value="{{ airport.code }}">{{ airport }}</option>
+            {% endfor %}
+          </select>
         </div>
-        <div class="form-group">
-            <label for="arrival_airport">Arrival Airport</label>
-            <select class="form-control" id="arrival_airport" name="arrival_airport" required>
-                {% for airport in airports %}
-                    <option value="{{ airport.code }}">{{ airport }}</option>
-                {% endfor %}
-            </select>
+        <div class="col">
+          <label for="arrival_airport">Arrival Airport</label>
+          <select class="form-control" id="arrival_airport" name="arrival_airport" required>
+            {% for airport in airports %}
+            <option value="{{ airport.code }}">{{ airport }}</option>
+            {% endfor %}
+          </select>
         </div>
-        {% if error_message %}
-        <div class="alert alert-danger">
-          {{ error_message }}
-        </div>
-        {% endif %}
-        <div class="form-group">
+      </div>
+      <div class="form-group row">
+        <div class="col">
           <label for="depart">Depart</label>
-          <input
-            type="date"
-            class="form-control"
-            id="depart"
-            name="depart"
-            min="2023-05-01" 
-            max="2023-06-30"
-            required
-            onchange="updateReturnDateMin()"
-          />
+          <input type="date" class="form-control" id="depart" name="depart" min="2023-05-01" max="2023-06-30" required onchange="updateReturnDateMin()" />
         </div>
-    
-    
-      <script> function toggleInput() {
-        //if return date is checked we will open the return flight information
+        <div class="col">
+          <label for="return">Return</label>
+          <input type="date" class="form-control" id="return" name="return" min="2023-05-01" max="2023-06-30" disabled />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="form-check">
+          <input type="checkbox" class="form-check-input" id="myCheckbox" onchange="toggleInput()" />
+          <label class="form-check-label" for="myCheckbox">Round-trip</label>
+        </div>
+      </div>
+      <div class="form-group row" style="display:none;" id='myInput'>
+        <div class="col">
+          <label for="return">Return</label>
+          <input type="date" class="form-control" id="return" name="return" min="2023-05-01" max="2023-06-30" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="tickets">Number of Tickets</label>
+        <input type="number" class="form-control" id="tickets" name="tickets" min="1" max="10" value="1" />
+      </div>
+      <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+  </div>
+</div>
+<div>
+  {% if error_message %}
+  <div class="alert alert-danger mt-4 mx-auto" style="max-width: 600px;">
+    {{ error_message }}
+  </div>
+  {% endif %}
+</div>
+<script>
+    function toggleInput() {
         var checkbox = document.getElementById("myCheckbox");
-        var input = document.getElementById("myInput");
+        var returnInput = document.getElementById("return");
         if (checkbox.checked == true) {
-          input.style.display = "block";
+            returnInput.disabled = false;
         } else {
-          input.style.display = "none";
+            returnInput.disabled = true;
         }
-      }
-      function updateReturnDateMin(){
-        //modifies the return date so that it can be before the return date
+    }
+    function updateReturnDateMin() {
         var departDate = document.getElementById("depart").value; 
         var returnDateInput = document.getElementById("return");
-        if (returnDateInput) {
-          returnDateInput.min = departDate;
+        if (returnDateInput.disabled == false) {
+            returnDateInput.min = departDate;
         }
-        
-      }
-      </script>
-      <input type="checkbox" id="myCheckbox" onchange="toggleInput()">
-      <label for="myCheckbox">Round-trip</label>
-      <div class="form-group" style="display:none;" id='myInput'>
-        <label for="return">Return</label>
-        <input type="date" 
-        class="form-control" 
-        id="return" 
-        name="return" 
-        min="2023-05-01" 
-        max="2023-06-30"/>
-      </div>
-    
-    
-    <div class="form-group">
-      <label for="tickets">Number of Tickets</label>
-      <input
-        type="number"
-        class="form-control"
-        id="tickets"
-        name="tickets"
-        min="1"
-        max="10"
-        value="1"
-      />
-    </div>
-    <button type="submit" class="btn btn-primary">Search</button>
-  </form>
-</div>
+    }
+</script>
 {% endblock %}
