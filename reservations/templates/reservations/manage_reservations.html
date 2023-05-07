@@ -27,6 +27,7 @@
           <a
             href="{% url 'cancel_reservation' ticket.id %}"
             class="btn btn-danger"
+            onclick="return confirm('Are you sure you want to cancel this ticket?');"
             >Cancel</a
           >
         </td>
