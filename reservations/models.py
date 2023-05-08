@@ -52,11 +52,11 @@ class AccountInfo(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     phone_number = models.CharField(max_length=15)
-    date_of_birth = models.CharField()
+    date_of_birth = models.CharField(max_length=9)
     address = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100)
-    zip_code = models.IntegerField(max_length=16)
+    zip_code = models.IntegerField()
     country = models.CharField(max_length=100)
     
     def save(self, request=None, *args, **kwargs):
