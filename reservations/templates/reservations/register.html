@@ -1,18 +1,57 @@
-{% extends "base.html" %} {% block content %}
-<h2>Register</h2>
-<form method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Register</button>
-</form>
-{% if form.errors %}
-<div class="error-message">
-  <h3>Please correct the following errors:</h3>
-  <ul>
-    {% for field in form %} {% for error in field.errors %}
-    <li>{{ error }}</li>
-    {% endfor %} {% endfor %}
-  </ul>
+{% extends "base.html" %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-center vh-100">
+   <div class="col-md-4">   
+      <div class="card">
+      <div class="card-body">
+        <h2 class="text-center mb-4">CREATE ACCOUNT</h2>
+        <form method="post">
+          {% csrf_token %}
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-user" style="line-height: 28px;"></i></span>
+            </div>
+            <input type="text" class="form-control" id="{{ form.username.id_for_label }}"
+              name="{{ form.username.name }}" required placeholder="Username" required>
+          </div>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fa fa-envelope" style="line-height: 28px;"></i></span>
+            </div>
+            <input type="email" class="form-control" id="{{ form.email.id_for_label }}"
+              name="{{ form.email.name }}" required placeholder="Email" required>
+          </div>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-lock" style="line-height: 28px;"></i></span>
+            </div>
+            <input type="password" class="form-control" id="{{ form.password1.id_for_label }}" 
+            name="{{ form.password1.name }}" required placeholder="Password" required>
+          </div>
+          <div class="input-group mb-4">
+            <div class="input-group-prepend">
+              <span class="input-group-text"><i class="fas fa-lock" style="line-height: 28px;"></i></span>              </div>
+              <input type="password" class="form-control" id="{{ form.password2.id_for_label }}"
+                name="{{ form.password2.name }}" required placeholder="Repeat Password" required>
+          </div>
+          <button type="submit" class="btn btn-primary d-flex justify-content-center w-100">Register</button>
+          <p class="text-center mt-4">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+          {% if form.errors %}
+          <div class="alert alert-danger mt-4 mx-auto" style="max-width: 600px;">
+            <strong>Error:</strong> Please correct the following errors:
+            <ul>
+              {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>    
+  </div>
 </div>
-{% endif %}
-<p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
 {% endblock %}
