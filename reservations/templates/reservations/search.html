@@ -3,9 +3,11 @@
 {% block title %}Search Flight{% endblock %}
 
 {% block content %}
-<h1 class="text-center mb-4">Book your next trip!</h1>
-<div class="card mx-auto" style="max-width: 1200px;">
-  <div class="card-body">
+<div class="d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+  <div class="card mx-auto" style="max-width: 1200px;">
+    <div class="card-body">
+    <h2 class="text-center mb-1"><b>SEARCH FOR FLIGHTS</b></h2> 
+    <h5 class="text-center mb-1"><i>Your next trip is a couple clicks away!</i></h5>
     <form method="POST">
       {% csrf_token %}
       <div class="form-group row">
@@ -48,20 +50,20 @@
           <input type="date" class="form-control" id="return" name="return" min="2023-05-01" max="2023-06-30" />
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group mb-2">
         <label for="tickets">Number of Tickets</label>
         <input type="number" class="form-control" id="tickets" name="tickets" min="1" max="10" value="1" />
       </div>
-      <button type="submit" class="btn btn-primary">Search</button>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary w-50">Search</button>
+      </div>
+      {% if error_message %}
+      <div class="alert alert-danger mt-2 mx-auto" style="max-width: 500px;">
+        {{ error_message }}
+      </div>
+      {% endif %}
     </form>
   </div>
-</div>
-<div>
-  {% if error_message %}
-  <div class="alert alert-danger mt-4 mx-auto" style="max-width: 600px;">
-    {{ error_message }}
-  </div>
-  {% endif %}
 </div>
 <script>
     function toggleInput() {
