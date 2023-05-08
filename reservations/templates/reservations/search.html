@@ -21,41 +21,57 @@
                 {% endfor %}
             </select>
         </div>
-    <div class="form-group">
-      <label for="depart">Depart</label>
-      <input
-        type="date"
-        class="form-control"
-        id="depart"
-        name="depart"
-        min="2023-05-01" 
-        max="2023-06-30"
-        required
-      />
-    </div>
+        {% if error_message %}
+        <div class="alert alert-danger">
+          {{ error_message }}
+        </div>
+        {% endif %}
+        <div class="form-group">
+          <label for="depart">Depart</label>
+          <input
+            type="date"
+            class="form-control"
+            id="depart"
+            name="depart"
+            min="2023-05-01" 
+            max="2023-06-30"
+            required
+            onchange="updateReturnDateMin()"
+          />
+        </div>
     
     
-    <script> function toggleInput() {
-      var checkbox = document.getElementById("myCheckbox");
-      var input = document.getElementById("myInput");
-      if (checkbox.checked == true) {
-        input.style.display = "block";
-      } else {
-        input.style.display = "none";
+      <script> function toggleInput() {
+        //if return date is checked we will open the return flight information
+        var checkbox = document.getElementById("myCheckbox");
+        var input = document.getElementById("myInput");
+        if (checkbox.checked == true) {
+          input.style.display = "block";
+        } else {
+          input.style.display = "none";
+        }
       }
-    }
-    </script>
-    <input type="checkbox" id="myCheckbox" onchange="toggleInput()">
-    <label for="myCheckbox">Round-trip</label>
-    <div class="form-group" style="display:none;" id='myInput'>
-      <label for="return">Return</label>
-      <input type="date" 
-      class="form-control" 
-      id="return" 
-      name="return" 
-      min="2023-05-01" 
-      max="2023-06-30"/>
-    </div>
+      function updateReturnDateMin(){
+        //modifies the return date so that it can be before the return date
+        var departDate = document.getElementById("depart").value; 
+        var returnDateInput = document.getElementById("return");
+        if (returnDateInput) {
+          returnDateInput.min = departDate;
+        }
+        
+      }
+      </script>
+      <input type="checkbox" id="myCheckbox" onchange="toggleInput()">
+      <label for="myCheckbox">Round-trip</label>
+      <div class="form-group" style="display:none;" id='myInput'>
+        <label for="return">Return</label>
+        <input type="date" 
+        class="form-control" 
+        id="return" 
+        name="return" 
+        min="2023-05-01" 
+        max="2023-06-30"/>
+      </div>
     
     
     <div class="form-group">

@@ -1,5 +1,39 @@
-{% extends "base.html" %} {% block content %}
+{% extends 'base.html' %} {% block title %} Manage Reservations {% endblock %}
+{% block content %}
 <div class="container">
-  <h1>Welcome to the manage reservations page (under construction)!</h1>
+  <h2 class="text-center mt-4">Manage Reservations</h2>
+  <hr />
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">Departure Airport</th>
+        <th scope="col">Arrival Airport</th>
+        <th scope="col">Departure Date</th>
+        <th scope="col">Return Date</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for ticket in tickets %}
+      <tr>
+        <td>{{ ticket.depart_flight.depart_airport }}</td>
+        <td>{{ ticket.depart_flight.arrival_airport }}</td>
+        <td>{{ ticket.depart_flight.depart_time }}</td>
+        <td>
+          {% if ticket.return_flight %} {{ ticket.return_flight.depart_time }}
+          {% else %} This is a one-way flight. {% endif %}
+        </td>
+        <td>
+          <a
+            href="{% url 'cancel_reservation' ticket.id %}"
+            class="btn btn-danger"
+            onclick="return confirm('Are you sure you want to cancel this ticket?');"
+            >Cancel</a
+          >
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 </div>
 {% endblock %}

@@ -1,5 +1,50 @@
-{% extends "base.html" %} {% block content %}
-<div class="container">
-  <h1>Welcome to your Account page (under construction)!</h1>
+{% extends 'base.html' %} {% block content %}
+<h2>My Account</h2>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">Personal Information</h5>
+        <table class="table table-sm">
+          <tr>
+            <td>First name:</td>
+            <td>{{ user.first_name }}</td>
+          </tr>
+          <tr>
+            <td>Last name:</td>
+            <td>{{ user.last_name }}</td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>{{ user.email }}</td>
+          </tr>
+          <tr>
+            <td>Birthdate:</td>
+            <td>{{ user.profile.birthdate }}</td>
+          </tr>
+          <tr>
+            <td>Street Address:</td>
+            <td>{{ user.profile.street_address }}</td>
+          </tr>
+          <tr>
+            <td>Zip Code:</td>
+            <td>{{ user.profile.zip_code }}</td>
+          </tr>
+          <tr>
+            <td>State:</td>
+            <td>{{ user.profile.state }}</td>
+          </tr>
+        </table>
+        <a href="{% url 'update_user' %}" class="btn btn-primary">Change</a>
+      </div>
+    </div>
+    <div class="card mt-4">
+      <div class="card-body">
+        <h5 class="card-title">Change Password</h5>
+        <p>Click the button below to change your password.</p>
+        <a href="{% url 'change_password' %}" class="btn btn-primary">Change</a>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
