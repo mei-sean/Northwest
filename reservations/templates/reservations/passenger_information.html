@@ -4,6 +4,7 @@
 <style>
     table {
         border-collapse: collapse;
+        padding-top: 20px;
     }
     th, td {
         border: 1px solid black;
@@ -11,30 +12,38 @@
     }
 </style>
 
-<form method="post">
-    {% csrf_token %}
-    {% for ticket in ticket_range %}
-        <h3>Passenger {{ ticket }}</h3>
-        <table>
-            <tr>
-                <td><label for="first_name{{ ticket }}">First Name:</label></td>
-                <td><input type="text" id="first_name{{ ticket }}" name="first_name{{ ticket }}" required></td>
-            </tr>
-            <tr>
-                <td><label for="last_name{{ ticket }}">Last Name:</label></td>
-                <td><input type="text" id="last_name{{ ticket }}" name="last_name{{ ticket }}" required></td>
-            </tr>
-            <tr>
-                <td><label for="email{{ ticket }}">Email:</label></td>
-                <td><input type="email" id="email{{ ticket }}" name="email{{ ticket }}" required></td>
-            </tr>
-            <tr>
-                <td><label for="dob{{ ticket }}">Date of Birth:</label></td>
-                <td><input type="date" id="dob{{ ticket }}" name="dob{{ ticket }}" required></td>
-            </tr>
-        </table>
-        <br>
-    {% endfor %}
-    <button type="submit" class='btn btn-primary'>Submit</button>
-</form>
+<div class="d-flex justify-content-center">
+    <form method="post">
+        {% csrf_token %}
+        {% for ticket in ticket_range %}
+    <table>
+        <tr class="text-center">
+            <td colspan="2"><h4>PASSENGER {{ ticket }}</h4></td>
+        </tr>
+        <tr>
+            <td><label for="first_name{{ ticket }}">First Name:</label></td>
+            <td><input type="text" id="first_name{{ ticket }}" name="first_name{{ ticket }}" required></td>
+        </tr>
+        <tr>
+            <td><label for="last_name{{ ticket }}">Last Name:</label></td>
+            <td><input type="text" id="last_name{{ ticket }}" name="last_name{{ ticket }}" required></td>
+        </tr>
+        <tr>
+            <td><label for="email{{ ticket }}">Email:</label></td>
+            <td><input type="email" id="email{{ ticket }}" name="email{{ ticket }}" required></td>
+        </tr>
+        <tr>
+            <td><label for="dob{{ ticket }}">Date of Birth:</label></td>
+            <td><input type="date" id="dob{{ ticket }}" name="dob{{ ticket }}" required></td>
+        </tr>
+    </table>
+    <br>
+{% endfor %}
+        <div class="d-flex justify-content-center">
+            <button type="submit" class='btn btn-primary'>Submit</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
+
+

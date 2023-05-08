@@ -11,25 +11,26 @@ from django.contrib import messages
 from datetime import datetime
 from .forms import UpdateUserForm, CustomPasswordChangeForm
 from django.contrib.auth.models import User
-
+from .forms import BootstrapUserCreationForm
+from .forms import BootstrapAuthenticationForm
 
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = BootstrapUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
             return redirect('login')
     else:
-        form = UserCreationForm()
+        form = BootstrapUserCreationForm()
     return render(request, 'reservations/register.html', {'form': form})
 
 
 
 def login_view(request):
     if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
+        form = BootstrapAuthenticationForm(data=request.POST)
         if form.is_valid():
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
@@ -40,7 +41,7 @@ def login_view(request):
             else:
                 form.add_error(None, 'Invalid username or password.')
     else:
-        form = AuthenticationForm()
+        form = BootstrapAuthenticationForm()
     return render(request, 'reservations/login.html', {'form': form})
 
 @login_required
