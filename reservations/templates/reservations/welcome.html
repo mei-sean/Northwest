@@ -1,6 +1,12 @@
 {% extends "base.html" %} {% block content %}
+<div class="bg-image" style="
+  background-image: url('/static/northwest737.jpg');
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+">
 <div class="container">
-  <h1>Welcome to Northwest Airlines!</h1>
+  <h1 style = "text-align: center;"><i>Welcome to Northwest Airlines!</i></h1>
   <p>
     This project aims to create a reservation system for Northwest Airlines.
     Users can create an account, log in, and manage their reservations, view
@@ -8,6 +14,5 @@
     are continuously working on improving the features and user experience of
     our platform.
   </p>
-  {% load static %} <img src="{% static "northwest737.jpg" %}" alt="an image of an Boeing 737 airplane" />
 </div>
 {% endblock %}
