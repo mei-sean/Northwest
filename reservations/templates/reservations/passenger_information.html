@@ -13,7 +13,7 @@
 </style>
 
 <div class="d-flex justify-content-center">
-    <form method="post">
+    <form method="post" id="passenger-form">
         {% csrf_token %}
         {% for ticket in ticket_range %}
     <table>
@@ -40,10 +40,37 @@
     <br>
 {% endfor %}
         <div class="d-flex justify-content-center">
+            <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="autofill" name="autofill" onchange="autofillData()">
+                <label class="form-check-label" for="autofill">
+                  Autofill with my information
+                </label>
+            </div>
             <button type="submit" class='btn btn-primary'>Submit</button>
         </div>
     </form>
 </div>
+
+<script>
+  function autofillData() {
+    var autofillCheckbox = document.getElementById('autofill');
+    var firstNameInput = document.getElementById('first_name1');
+    var lastNameInput = document.getElementById('last_name1');
+    var emailInput = document.getElementById('email1');
+    var dobInput = document.getElementById('dob1');
+
+    if (autofillCheckbox.checked) {
+      firstNameInput.value = "{{ user.first_name }}";
+      lastNameInput.value = "{{ user.last_name }}";
+      emailInput.value = "{{ user.email }}";
+      dobInput.value = "{{ user.date_of_birth|date:'Y-m-d' }}";
+    } else {
+      firstNameInput.value = "";
+      lastNameInput.value = "";
+      emailInput.value = "";
+      dobInput.value = "";
+    }
+  }
+</script>
+
 {% endblock %}
-
-
