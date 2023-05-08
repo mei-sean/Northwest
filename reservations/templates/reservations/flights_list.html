@@ -24,7 +24,7 @@
                     <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                     <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                     <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
-                    <input type="checkbox" name="depart_flights[]" value="{{flight.id}}">
+                    <input type="checkbox" name="depart_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                     <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                   </div>
                 </div>
@@ -42,7 +42,7 @@
                       <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                       <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                       <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
-                      <input type="checkbox" name="return_flights[]" value="{{flight.id}}">
+                      <input type="checkbox" name="return_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                       <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                     </div>
                   </div>
@@ -52,8 +52,8 @@
           {% endif %}
         </div>
         <div class="d-flex justify-content-center mt-3">
-          <button onclick="goBack()" class='btn btn-secondary mr-2'>Back to Search Page</button>
-          <button type="submit" class='btn btn-primary'>Save Flights</button>
+          <button onclick="goBack()" class='btn btn-secondary mr-2' type="button">Back to Search Page</button>
+          <button type="submit" id="save-flights-btn" class='btn btn-primary' disabled>Continue to Add Passengers</button>
         </div>
       </form>
     </div>
@@ -61,13 +61,21 @@
 </div>
 
 <script>
-function goBack() {
-  window.history.back();
-}
+  function checkSelectedFlights() {
+    var departCheckboxes = document.querySelectorAll('input[name="depart_flights[]"]');
+    var returnCheckboxes = document.querySelectorAll('input[name="return_flights[]"]');
+    var saveFlightsBtn = document.getElementById('save-flights-btn');
+
+    var departSelected = Array.from(departCheckboxes).some(checkbox => checkbox.checked);
+    var returnSelected = Array.from(returnCheckboxes).some(checkbox => checkbox.checked);
+
+    saveFlightsBtn.disabled = !(departSelected || returnSelected);
+  }
+
+  function goBack() {
+    window.history.back();
+  }
 </script>
 
 {% endblock %}
 
-
-
-    
