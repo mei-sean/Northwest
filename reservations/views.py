@@ -182,7 +182,9 @@ def passenger_info_view(request, num_tickets):
         return redirect(redirect_url)
     else:
         ticket_range = range(1, num_tickets + 1)
-        return render(request, 'reservations/passenger_information.html', {'ticket_range': ticket_range})
+        user_profile = request.user.profile
+        user_dob = user_profile.birthdate.strftime('%Y-%m-%d') if user_profile.birthdate else ''
+        return render(request, 'reservations/passenger_information.html', {'ticket_range': ticket_range, 'user_dob': user_dob})
 
 @login_required
 def payment_view(request, ticket_id):

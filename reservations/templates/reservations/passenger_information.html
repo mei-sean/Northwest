@@ -52,25 +52,25 @@
 </div>
 
 <script>
-  function autofillData() {
-    var autofillCheckbox = document.getElementById('autofill');
-    var firstNameInput = document.getElementById('first_name1');
-    var lastNameInput = document.getElementById('last_name1');
-    var emailInput = document.getElementById('email1');
-    var dobInput = document.getElementById('dob1');
-
-    if (autofillCheckbox.checked) {
-      firstNameInput.value = "{{ user.first_name }}";
-      lastNameInput.value = "{{ user.last_name }}";
-      emailInput.value = "{{ user.email }}";
-      dobInput.value = "{{ user.date_of_birth|date:'Y-m-d' }}";
-    } else {
-      firstNameInput.value = "";
-      lastNameInput.value = "";
-      emailInput.value = "";
-      dobInput.value = "";
+    function autofillData() {
+      var autofillCheckbox = document.getElementById('autofill');
+      var firstNameInput = document.getElementById('first_name1');
+      var lastNameInput = document.getElementById('last_name1');
+      var emailInput = document.getElementById('email1');
+      var dobInput = document.getElementById('dob1');
+  
+      if (autofillCheckbox.checked) {
+        firstNameInput.value = "{{ user.first_name }}";
+        lastNameInput.value = "{{ user.last_name }}";
+        emailInput.value = "{{ user.email }}";
+        dobInput.value = "{{ user_dob }}";
+      } else {
+        firstNameInput.value = "";
+        lastNameInput.value = "";
+        emailInput.value = "";
+        dobInput.value = "";
+      }
     }
-  }
-</script>
+  </script>  
 
 {% endblock %}
