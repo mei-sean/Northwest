@@ -90,29 +90,3 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
-
-
-    
-class AccountInfo(models.Model):
-    userID = models.PositiveIntegerField(unique=True)
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
-    phone_number = models.CharField(max_length=15)
-    date_of_birth = models.CharField(max_length=9)
-    address = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    state = models.CharField(max_length=100)
-    zip_code = models.IntegerField()
-    country = models.CharField(max_length=100)
-    
-    def save(self, request=None, *args, **kwargs):
-        self.userID = request.user.id
-        super(AccountInfo, self).save(*args, **kwargs)
-
-
-
-
-
-
-
-
