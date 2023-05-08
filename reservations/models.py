@@ -47,6 +47,23 @@ class Flight(models.Model):
     def check_seats(self):
         return self.seats < 250
     
+class AccountInfo(models.Model):
+    userID = models.PositiveIntegerField(unique=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=15)
+    date_of_birth = models.CharField()
+    address = models.CharField(max_length=100)
+    city = models.CharField(max_length=100)
+    state = models.CharField(max_length=100)
+    zip_code = models.IntegerField(max_length=16)
+    country = models.CharField(max_length=100)
+    
+    def save(self, request=None, *args, **kwargs):
+        self.userID = request.user.id
+        super(AccountInfo, self).save(*args, **kwargs)
+
+
 
 
 
