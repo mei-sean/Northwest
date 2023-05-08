@@ -1,47 +1,55 @@
-{% extends 'base.html' %} {% block title %} Search Flight {% endblock %} 
-{%block content %}
+{% extends 'base.html' %} {% block title %} Search Flight {% endblock %} {%block
+content %}
 
 <div class="container">
   <h1>Search Flight</h1>
-  <form method="POST" >
+  <form method="POST">
     {% csrf_token %}
-        <div class="form-group">
-            <label for="depart_airport">Depart From</label>
-            <select class="form-control" id="depart_airport" name="depart_airport" required>
-                {% for airport in airports %}
-                    <option value="{{ airport.code }}">{{ airport }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="arrival_airport">Arrival Airport</label>
-            <select class="form-control" id="arrival_airport" name="arrival_airport" required>
-                {% for airport in airports %}
-                    <option value="{{ airport.code }}">{{ airport }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        {% if error_message %}
-        <div class="alert alert-danger">
-          {{ error_message }}
-        </div>
-        {% endif %}
-        <div class="form-group">
-          <label for="depart">Depart</label>
-          <input
-            type="date"
-            class="form-control"
-            id="depart"
-            name="depart"
-            min="2023-05-01" 
-            max="2023-06-30"
-            required
-            onchange="updateReturnDateMin()"
-          />
-        </div>
-    
-    
-      <script> function toggleInput() {
+    <div class="form-group">
+      <label for="depart_airport">Depart From</label>
+      <select
+        class="form-control"
+        id="depart_airport"
+        name="depart_airport"
+        required
+      >
+        {% for airport in airports %}
+        <option value="{{ airport.code }}">{{ airport }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="arrival_airport">Arrival Airport</label>
+      <select
+        class="form-control"
+        id="arrival_airport"
+        name="arrival_airport"
+        required
+      >
+        {% for airport in airports %}
+        <option value="{{ airport.code }}">{{ airport }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    {% if error_message %}
+    <div class="alert alert-danger">{{ error_message }}</div>
+    {% endif %}
+    <div class="form-group">
+      <label for="depart">Depart</label>
+      <input
+        type="date"
+        class="form-control"
+        id="depart"
+        name="depart"
+        min="2023-05-01"
+        max="2023-06-30"
+        required
+        onchange="updateReturnDateMin()"
+      />
+    </div>
+
+    <script>
+      function toggleInput() {
         //if return date is checked we will open the return flight information
         var checkbox = document.getElementById("myCheckbox");
         var input = document.getElementById("myInput");
@@ -51,29 +59,29 @@
           input.style.display = "none";
         }
       }
-      function updateReturnDateMin(){
+      function updateReturnDateMin() {
         //modifies the return date so that it can be before the return date
-        var departDate = document.getElementById("depart").value; 
+        var departDate = document.getElementById("depart").value;
         var returnDateInput = document.getElementById("return");
         if (returnDateInput) {
           returnDateInput.min = departDate;
         }
-        
       }
-      </script>
-      <input type="checkbox" id="myCheckbox" onchange="toggleInput()">
-      <label for="myCheckbox">Round-trip</label>
-      <div class="form-group" style="display:none;" id='myInput'>
-        <label for="return">Return</label>
-        <input type="date" 
-        class="form-control" 
-        id="return" 
-        name="return" 
-        min="2023-05-01" 
-        max="2023-06-30"/>
-      </div>
-    
-    
+    </script>
+    <input type="checkbox" id="myCheckbox" onchange="toggleInput()" />
+    <label for="myCheckbox">Round-trip</label>
+    <div class="form-group" style="display: none" id="myInput">
+      <label for="return">Return</label>
+      <input
+        type="date"
+        class="form-control"
+        id="return"
+        name="return"
+        min="2023-05-01"
+        max="2023-06-30"
+      />
+    </div>
+
     <div class="form-group">
       <label for="tickets">Number of Tickets</label>
       <input

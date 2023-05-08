@@ -1,81 +1,95 @@
-{% extends 'base.html' %} {% block title %} flights {% endblock %} 
-{%block content %}
+{% extends 'base.html' %} {% block title %} flights {% endblock %} {%block
+content %}
 <style>
   table {
-      border-collapse: collapse;
+    border-collapse: collapse;
   }
-  th, td {
-      border: 1px solid black;
-      padding: 8px;
+  th,
+  td {
+    border: 1px solid black;
+    padding: 8px;
   }
 </style>
 <h1>Flight Search Results</h1>
 <!DOCTYPE html>
 <html>
-<head>
-
-</head>
-<body>
-  <form method="post" >
-    {% csrf_token %}
-    <table>
-      <tr>
-        <th>Depart Flights</th>
-        {% if return_flights %}
+  <head> </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+      <table>
+        <tr>
+          <th>Depart Flights</th>
+          {% if return_flights %}
           <th>Return Flights</th>
-        {% endif %}
-      </tr>
-      <tr>
-        <td>
-          {{departure_date}}
-          <ul style="list-style-type:none;">
-            {% for flight in flights %}
-              {% if flight.depart_time.date == departure_date %}
+          {% endif %}
+        </tr>
+        <tr>
+          <td>
+            {{departure_date}}
+            <ul style="list-style-type: none">
+              {% for flight in flights %} {% if flight.depart_time.date ==
+              departure_date %}
               <li>
-                <input type="checkbox" name="depart_flights[]" value="{{flight.id}}">
-                <p>Departure Airport: {{ flight.depart_airport.name }} ({{ flight.depart_airport.code }})</p>
-                <p>Destination Airport: {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
+                <input
+                  type="checkbox"
+                  name="depart_flights[]"
+                  value="{{flight.id}}"
+                />
+                <p>
+                  Departure Airport: {{ flight.depart_airport.name }} ({{
+                  flight.depart_airport.code }})
+                </p>
+                <p>
+                  Destination Airport: {{ flight.arrival_airport.name }} ({{
+                  flight.arrival_airport.code }})
+                </p>
                 <p>Departure time: {{ flight.depart_time.time}}</p>
                 <p>Arrival time: {{ flight.arrival_time.time}}</p>
               </li>
-              {% endif %}
-            {% endfor %}
-          </ul>
-        </td>
-        {% if return_flights %}
-          <td>
-            {{return_date}}
-            <ul style="list-style-type:none;">
-              {% for flight in return_flights %}
-                {% if flight.depart_time.date == return_date %}
-                <li>
-                  <input type="checkbox" name="return_flights[]" value="{{flight.id}}">
-                  <p>Departure Airport: {{ flight.depart_airport.name }} ({{ flight.depart_airport.code }})</p>
-                  <p>Destination Airport: {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
-                  <p>Departure time: {{ flight.depart_time.time}}</p>
-                  <p>Arrival time: {{ flight.arrival_time.time}}</p>
-                </li>
-                {% endif %}
-              {% endfor %}
+              {% endif %} {% endfor %}
             </ul>
           </td>
-        {% endif %}
-      </tr>
-    </table>
-    <button onclick=goBack()  class='btn btn-secondary'>Back to Search Page</button><button type="submit" class='btn btn-primary'>Save Flights</button>
-  </form>
-  
-  
+          {% if return_flights %}
+          <td>
+            {{return_date}}
+            <ul style="list-style-type: none">
+              {% for flight in return_flights %} {% if flight.depart_time.date
+              == return_date %}
+              <li>
+                <input
+                  type="checkbox"
+                  name="return_flights[]"
+                  value="{{flight.id}}"
+                />
+                <p>
+                  Departure Airport: {{ flight.depart_airport.name }} ({{
+                  flight.depart_airport.code }})
+                </p>
+                <p>
+                  Destination Airport: {{ flight.arrival_airport.name }} ({{
+                  flight.arrival_airport.code }})
+                </p>
+                <p>Departure time: {{ flight.depart_time.time}}</p>
+                <p>Arrival time: {{ flight.arrival_time.time}}</p>
+              </li>
+              {% endif %} {% endfor %}
+            </ul>
+          </td>
+          {% endif %}
+        </tr>
+      </table>
+      <button onclick="goBack()" class="btn btn-secondary">
+        Back to Search Page</button
+      ><button type="submit" class="btn btn-primary">Save Flights</button>
+    </form>
 
-  <script>
-  function goBack() {
-    window.history.back();
-  }
-  </script>
-
-</body>
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+    </script>
+  </body>
 </html>
 
-
 {% endblock %}
-    
