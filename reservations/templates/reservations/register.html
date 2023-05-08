@@ -37,25 +37,21 @@
           </div>
           <button type="submit" class="btn btn-primary d-flex justify-content-center w-100">Register</button>
           <p class="text-center mt-4">Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+          {% if form.errors %}
+          <div class="alert alert-danger mt-4 mx-auto" style="max-width: 600px;">
+            <strong>Error:</strong> Please correct the following errors:
+            <ul>
+              {% for field in form %}
+                {% for error in field.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
         </form>
       </div>
     </div>    
-    {% if form.errors %}
-    <div class="card mt-4">
-      <div class="card-body">
-        <div class="alert alert-danger" role="alert">
-          <strong>Please correct the following errors:</strong>
-          <ul>
-            {% for field in form %}
-              {% for error in field.errors %}
-              <li>{{ error }}</li>
-              {% endfor %}
-            {% endfor %}
-          </ul>
-        </div>
-      </div>
-    </div>
-    {% endif %}
   </div>
 </div>
 {% endblock %}
