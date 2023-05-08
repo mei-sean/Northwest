@@ -68,5 +68,3 @@ def generate_random_time():
     now = datetime.now()
     future = now + timedelta(days=45)
     return random.randint(int(now.timestamp()), int(future.timestamp()))
-
-
