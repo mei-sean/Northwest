@@ -62,7 +62,6 @@ Features planned for the future
 
 Fix bugs
 * Set limit of passengers per flight
-* Not let passengers book flights that occurred before current date
 
 ### Contributing
 
