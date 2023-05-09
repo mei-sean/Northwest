@@ -2,20 +2,21 @@
 {% block title %} flights {% endblock %} 
 
 {% block content %}
+
 <div class="bg-image" style="
   background-image: url('/static/palm.jpg');
   background-size: cover;
   background-position: center;
 ">
-<div class="card mx-auto" style="max-width: 800px;">
+<div class="card mx-auto" style="max-width: 1200px;">
   <div class="card-body">
     <h1 class="text-center mb-4">FLIGHT SEARCH RESULTS</h1>
     <div class="d-flex justify-content-center">
       <form method="post" style="width: 100%;">
         {% csrf_token %}
         <div class="row">
-          <div class="col-md-10 mx-auto">
-            <h3 class="text-center">{{departure_date}}</h3>
+          <div class="col-md-6">
+            <h3 class="text-center">Departure Flights - {{departure_date}}</h3>
             {% for flight in flights %}
               {% if flight.depart_time.date == departure_date %}
                 <div class="card my-3 mx-auto" style="max-width: 100%; margin: 0 auto;">
@@ -33,9 +34,10 @@
             {% endfor %}
           </div>
           {% if return_flights %}
-            <div class="col-md-10 mx-auto">
-              <h3 class="text-center">{{return_date}}</h3>
+            <div class="col-md-6">
+              <h3 class="text-center">Return Flights - {{return_date}}</h3>
               {% for flight in return_flights %}
+              
                 {% if flight.depart_time.date == return_date %}
                   <div class="card my-3 mx-auto" style="max-width: 100%; margin: 0 auto;">
                     <div class="card-body">
