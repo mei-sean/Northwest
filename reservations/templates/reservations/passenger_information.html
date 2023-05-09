@@ -1,76 +1,83 @@
 {% extends 'base.html' %}
-{% block title %} Passenger Information {% endblock %}
-{% block content %}
-<style>
-    table {
-        border-collapse: collapse;
-        padding-top: 20px;
-    }
-    th, td {
-        border: 1px solid black;
-        padding: 8px;
-    }
-</style>
 
-<div class="d-flex justify-content-center">
-    <form method="post" id="passenger-form">
-        {% csrf_token %}
-        {% for ticket in ticket_range %}
-    <table>
-        <tr class="text-center">
-            <td colspan="2"><h4>PASSENGER {{ ticket }}</h4></td>
-        </tr>
-        <tr>
-            <td><label for="first_name{{ ticket }}">First Name:</label></td>
-            <td><input type="text" id="first_name{{ ticket }}" name="first_name{{ ticket }}" required></td>
-        </tr>
-        <tr>
-            <td><label for="last_name{{ ticket }}">Last Name:</label></td>
-            <td><input type="text" id="last_name{{ ticket }}" name="last_name{{ ticket }}" required></td>
-        </tr>
-        <tr>
-            <td><label for="email{{ ticket }}">Email:</label></td>
-            <td><input type="email" id="email{{ ticket }}" name="email{{ ticket }}" required></td>
-        </tr>
-        <tr>
-            <td><label for="dob{{ ticket }}">Date of Birth:</label></td>
-            <td><input type="date" id="dob{{ ticket }}" name="dob{{ ticket }}" required></td>
-        </tr>
-    </table>
-    <br>
-{% endfor %}
-        <div class="d-flex justify-content-center">
-            <div class="form-check mb-2">
+{% block title %} Passenger Information {% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">{{ title }}</div>
+        <div class="card-body">
+          <form method="post" id="passenger-form">
+            {% csrf_token %}
+            {% for ticket in ticket_range %}
+            <div class="form-group">
+              <h4 class="text-center">PASSENGER {{ ticket }}</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="first_name{{ ticket }}">First Name:</label>
+                  <input type="text" id="first_name{{ ticket }}" name="first_name{{ ticket }}" required class="form-control">
+                </div>
+                <div class="col-md-6">
+                  <label for="last_name{{ ticket }}">Last Name:</label>
+                  <input type="text" id="last_name{{ ticket }}" name="last_name{{ ticket }}" required class="form-control">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="email{{ ticket }}">Email:</label>
+                  <input type="email" id="email{{ ticket }}" name="email{{ ticket }}" required class="form-control">
+                </div>
+                <div class="col-md-6">
+                  <label for="dob{{ ticket }}">Date of Birth:</label>
+                  <input type="date" id="dob{{ ticket }}" name="dob{{ ticket }}" required class="form-control">
+                </div>
+              </div>
+              <br>
+            </div>
+            {% endfor %}
+            <div class="form-group">
+              <div class="form-check">
                 <input class="form-check-input" type="checkbox" id="autofill" name="autofill" onchange="autofillData()">
                 <label class="form-check-label" for="autofill">
                   Autofill with my information
                 </label>
+              </div>
             </div>
-            <button type="submit" class='btn btn-primary'>Submit</button>
+            <div class="form-group row mb-0">
+              <div class="col-md-6 offset-md-4">
+                <button type="submit" class="btn btn-primary">
+                  Submit
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-    </form>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
-    function autofillData() {
-      var autofillCheckbox = document.getElementById('autofill');
-      var firstNameInput = document.getElementById('first_name1');
-      var lastNameInput = document.getElementById('last_name1');
-      var emailInput = document.getElementById('email1');
-      var dobInput = document.getElementById('dob1');
-  
-      if (autofillCheckbox.checked) {
-        firstNameInput.value = "{{ user.first_name }}";
-        lastNameInput.value = "{{ user.last_name }}";
-        emailInput.value = "{{ user.email }}";
-        dobInput.value = "{{ user_dob }}";
-      } else {
-        firstNameInput.value = "";
-        lastNameInput.value = "";
-        emailInput.value = "";
-        dobInput.value = "";
-      }
-    }
-  </script>  
+function autofillData() {
+  var autofillCheckbox = document.getElementById('autofill');
+  var firstNameInput = document.getElementById('first_name1');
+  var lastNameInput = document.getElementById('last_name1');
+  var emailInput = document.getElementById('email1');
+  var dobInput = document.getElementById('dob1');
 
+  if (autofillCheckbox.checked) {
+    firstNameInput.value = "{{ user.first_name }}";
+    lastNameInput.value = "{{ user.last_name }}";
+    emailInput.value = "{{ user.email }}";
+    dobInput.value = "{{ user_dob }}";
+  } else {
+    firstNameInput.value = "";
+    lastNameInput.value = "";
+    emailInput.value = "";
+    dobInput.value = "";
+  }
+}
+</script>
 {% endblock %}

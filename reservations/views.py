@@ -148,14 +148,19 @@ def calculate_total_cost(depart_flight, return_flight, num_passengers):
     total_cost = Decimal(0)
     
     # Add the cost of the depart flight
-    total_cost += Decimal(depart_flight.price)
+    total_cost += Decimal(depart_flight.price + 177.5)
+    
     
     # Add the cost of the return flight (if there is one)
     if return_flight:
-        total_cost += Decimal(return_flight.price)
+        total_cost += Decimal(return_flight.price + 177.5)
     
     # Multiply the total cost by the number of passengers
     total_cost *= num_passengers
+    '''security fee 177.50
+    one time carry on fee 25.00
+    transportation tax 40.50
+    carrier imposed fees 100.00'''
     
     return total_cost
         
@@ -166,11 +171,11 @@ def passenger_info_view(request, num_tickets):
         return_flight_id = request.GET.get('return_flight_id')
         
         depart_flight = Flight.objects.get(id=depart_flight_id)
-        print(depart_flight)
+        
         return_flight = Flight.objects.get(id=return_flight_id) if return_flight_id else None
         
         total_cost = calculate_total_cost(depart_flight, return_flight, num_tickets)
-        print(total_cost)
+        
         ticket = Ticket.objects.create(user=request.user, depart_flight=depart_flight, return_flight=return_flight, total_cost=total_cost)
 
         for i in range(1, num_tickets+1):
@@ -219,14 +224,37 @@ def manage_reservations(request):
 @login_required
 def cancel_reservation(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
-    
+
     # Ensure the ticket belongs to the requesting user
     if ticket.user != request.user:
         return HttpResponseForbidden("You do not have permission to cancel this reservation.")
-    
+
+    # Delete the ticket and all related passengers
+    ticket.passengers.all().delete()
     ticket.delete()
+
     messages.success(request, 'Your reservation has been successfully canceled.')
     return redirect('manage_reservations')
+
+@login_required
+def cancel_passenger(request, ticket_id, passenger_id):
+    ticket = Ticket.objects.get(id=ticket_id)
+
+    # Ensure the ticket belongs to the requesting user
+    if ticket.user != request.user:
+        return HttpResponseForbidden("You do not have permission to cancel this reservation.")
+
+    passenger = Passenger.objects.get(id=passenger_id)
+
+    
+    # Remove the passenger from the ticket's passengers list
+    ticket.passengers.remove(passenger)
+    
+
+    messages.success(request, 'Passenger has been successfully removed from the ticket.')
+    return redirect('manage_reservations')
+
+    
 
 @login_required
 def update_user(request):

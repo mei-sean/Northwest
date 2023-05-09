@@ -31,23 +31,60 @@
             <td>{{ ticket.depart_flight.arrival_airport }}</td>
             <td>{{ ticket.depart_flight.depart_time }}</td>
             <td>
-              {% if ticket.return_flight %} {{ ticket.return_flight.depart_time }}
-              {% else %} This is a one-way flight. {% endif %}
+              {% if ticket.return_flight %}
+                {{ ticket.return_flight.depart_time }}
+              {% else %}
+                This is a one-way flight.
+              {% endif %}
             </td>
             <td>
-              <a
-                href="{% url 'cancel_reservation' ticket.id %}"
-                class="btn btn-danger"
-                onclick="return confirm('Are you sure you want to cancel this ticket?');"
-                >Cancel</a
-              >
+              {% if ticket.passengers.count == 1 %}
+              <form action="{% url 'cancel_reservation' ticket.id %}" method="post">
+                {% csrf_token %}
+                
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel flight?')">Remove Ticket</button>
+              </form>
+              {% else %}
+                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#passengersModal{{ ticket.id }}">Modify Booking</button>
+                <div class="modal fade" id="passengersModal{{ ticket.id }}" tabindex="-1" aria-labelledby="passengersModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="passengersModalLabel">Select passenger to remove</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>Passengers:</p>
+                        <div class="list-group">
+                          {% for passenger in ticket.passengers.all %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                              <span>{{ passenger.first_name }} {{ passenger.last_name }}</span>
+                              <form action="{% url 'cancel_passenger' ticket.id passenger.id %}" method="post" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to remove this passenger?')">Remove</button>
+                              </form>
+                            </div>
+                          {% endfor %}
+                        </div>
+                        <hr>
+                        <form action="{% url 'cancel_reservation' ticket.id %}" method="post">
+                          {% csrf_token %}
+                          
+                          <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel flight?')">Remove Ticket</button>
+                        </form>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
         </tbody>
+  
       </table>
     </div>
   </div>
 </div>
 {% endblock %}
-
