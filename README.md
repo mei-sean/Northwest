@@ -15,7 +15,7 @@
 
 ## About the Project
 
-Hello everyone! We are northwest, a mock airline reservation website.  
+Hello everyone! We are Northwest, a mock airline reservation website.  
 
 ### Built With
 
@@ -33,8 +33,7 @@ This section should provide detailed instructions on how to get started with the
 ### Installation
 
 If you want to view our project on your local machine, please follow these instructions:  
-  1. Pull from the master branch onto your local machine. 
-  Clone the repo
+  1. Clone the repo from the master branch onto your local machine. 
 
    ```sh
    git clone <https://github.com/SJSU-CMPE133-2023-Spring/northwest>
@@ -57,13 +56,18 @@ If you want to view our project on your local machine, please follow these instr
 Features planned for the future
 * Low cost calendar view
 * Points reward system
+* Different ticket tiers
 * Check in 
 * Flight reservation confirmation number
+
+Fix bugs
+* Set limit of passengers per flight
+* Not let passengers book flights that occurred before current date
 
 ### Contributing
 
 * Garrett Russell
-* Sean Mei
+* Sean Meiupda
 * Anh Thu Pham
 * Jose Cortes
 
