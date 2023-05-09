@@ -67,7 +67,7 @@ Fix bugs
 ### Contributing
 
 * Garrett Russell
-* Sean Meiupda
+* Sean Mei
 * Anh Thu Pham
 * Jose Cortes
 
