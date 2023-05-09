@@ -67,21 +67,29 @@
   </div>
 </div>
 <script>
-    function toggleInput() {
-        var checkbox = document.getElementById("myCheckbox");
-        var returnInput = document.getElementById("return");
-        if (checkbox.checked == true) {
-            returnInput.disabled = false;
-        } else {
-            returnInput.disabled = true;
-        }
-    } 
-    function updateReturnDateMin() {
-        var departDate = document.getElementById("depart").value; 
-        var returnDateInput = document.getElementById("return");
-        if (returnDateInput.disabled == false) {
-            returnDateInput.min = departDate;
-        }
-    }
+  function toggleInput() {
+      var checkbox = document.getElementById("myCheckbox");
+      var returnInput = document.getElementById("return");
+      if (checkbox.checked == true) {
+          returnInput.disabled = false;
+          updateReturnDateMin();
+      } else {
+          returnInput.disabled = true;
+      }
+  }
+  
+  function updateReturnDateMin() {
+      var departDate = document.getElementById("depart").value; 
+      var returnDateInput = document.getElementById("return");
+
+      if (returnDateInput.disabled == false) {
+          var nextDay = new Date(departDate);
+          nextDay.setDate(nextDay.getDate() + 1);
+
+          var formattedNextDay = nextDay.toISOString().substring(0, 10);
+          returnDateInput.min = formattedNextDay;
+      }
+  }
 </script>
+
 {% endblock %}
