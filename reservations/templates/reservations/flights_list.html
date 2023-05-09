@@ -25,6 +25,7 @@
                     <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                     <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                     <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
+                    <p><b>Price:</b> ${{ flight.price}}</p>
                     <input type="checkbox" name="depart_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                     <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                   </div>
@@ -44,6 +45,7 @@
                       <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                       <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                       <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
+                      <p><b>Price:</b> ${{ flight.price}}</p>
                       <input type="checkbox" name="return_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                       <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                     </div>
