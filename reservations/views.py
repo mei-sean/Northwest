@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate, update_session_auth_hash
@@ -70,8 +70,9 @@ def search(request):
         depart_airport_code = request.POST['depart_airport']
         arrival_airport_code = request.POST['arrival_airport']
         departure_date = request.POST['depart']
+    
         return_date = request.POST.get('return', None) #set to none in case it is one way flight
-
+        
         tickets = request.POST['tickets']
 
         if depart_airport_code == arrival_airport_code:
@@ -84,6 +85,7 @@ def search(request):
         redirect_url = reverse('list_flights') + f'?depart_airport_code={depart_airport_code}&arrival_airport_code={arrival_airport_code}&departure_date={departure_date}&tickets={tickets}'
         if return_date:
             #in case the user did have a return date we include the date
+           
             redirect_url += f'&return_date={return_date}'
         return redirect(redirect_url)
     else:
@@ -131,6 +133,8 @@ def list_flights(request):
                 arrival_airport=depart_airport,
                 
             )
+            
+            
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date, 'return_flights': return_flights, 'return_date': return_date})
         else:
             return_flights = None

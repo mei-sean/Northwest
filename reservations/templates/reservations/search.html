@@ -37,11 +37,11 @@
       <div class="form-group row">
         <div class="col">
           <label for="depart">Depart</label>
-          <input type="date" class="form-control" id="depart" name="depart" min="2023-05-01" max="2023-06-30" required onchange="updateReturnDateMin()" />
+          <input type="date" class="form-control" id="depart" name="depart" min="2023-05-09" max="2023-06-30" required onchange="updateReturnDateMin()" />
         </div>
         <div class="col">
           <label for="return">Return</label>
-          <input type="date" class="form-control" id="return" name="return" min="2023-05-01" max="2023-06-30" disabled />
+          <input type="date" class="form-control" id="return" name="return" min="2023-05-09" max="2023-06-30" disabled />
         </div>
       </div>
       <div class="form-group">
@@ -50,12 +50,7 @@
           <label class="form-check-label" for="myCheckbox">Round-trip</label>
         </div>
       </div>
-      <div class="form-group row" style="display:none;" id='myInput'>
-        <div class="col">
-          <label for="return">Return</label>
-          <input type="date" class="form-control" id="return" name="return" min="2023-05-01" max="2023-06-30" />
-        </div>
-      </div>
+      
       <div class="form-group mb-2">
         <label for="tickets">Number of Tickets</label>
         <input type="number" class="form-control" id="tickets" name="tickets" min="1" max="10" value="1" />
@@ -80,7 +75,7 @@
         } else {
             returnInput.disabled = true;
         }
-    }
+    } 
     function updateReturnDateMin() {
         var departDate = document.getElementById("depart").value; 
         var returnDateInput = document.getElementById("return");
