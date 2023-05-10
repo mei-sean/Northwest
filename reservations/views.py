@@ -13,6 +13,16 @@ from .forms import UpdateUserForm, CustomPasswordChangeForm
 from django.contrib.auth.models import User
 from .forms import BootstrapUserCreationForm
 from .forms import BootstrapAuthenticationForm
+from io import BytesIO
+from reportlab.lib.units import inch
+from reportlab.pdfgen import canvas
+import qrcode
+import tempfile
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+
+
 
 
 def register(request):
@@ -157,7 +167,7 @@ def calculate_total_cost(depart_flight, return_flight, num_passengers):
     
     # Multiply the total cost by the number of passengers
     total_cost *= num_passengers
-    '''security fee 177.50
+    '''security fee 12.00
     one time carry on fee 25.00
     transportation tax 40.50
     carrier imposed fees 100.00'''
@@ -197,7 +207,7 @@ def passenger_info_view(request, num_tickets):
 
 @login_required
 def payment_view(request, ticket_id):
-    ticket = Ticket.objects.get(id=ticket_id)  
+    ticket = Ticket.objects.get(id=ticket_id)
     if request.method == 'POST':
         card_number = request.POST['card_number']
         expiration_date = request.POST['expiration_date']
@@ -206,15 +216,47 @@ def payment_view(request, ticket_id):
         address = request.POST['address']
         
         # update ticket as paid
-        ticket = Ticket.objects.get(id=ticket_id)
         ticket.paid = True
         ticket.save()
         
+        # Generate PDF and send as email attachment
+        qr_code = qrcode.make(ticket.id)
+        with tempfile.NamedTemporaryFile(delete=False) as tmp:
+            qr_code.save(tmp.name)
+            pdf_data = generate_ticket_pdf(ticket, tmp.name)
+
+        email_subject = 'Your Ticket Summary'
+        email_body = render_to_string('reservations/email_body.html', {'ticket': ticket})
+        email = EmailMessage(email_subject, email_body, 'noreply@northwest.com', [request.user.email])
+        email.attach(f'ticket_{ticket.id}.pdf', pdf_data, 'application/pdf')
+        email.send()
+
         return redirect('manage_reservations')
     
     else:
         passengers = ticket.passengers.all()
         return render(request, 'reservations/payment.html', {'ticket': ticket, 'passengers': passengers})
+
+    
+def generate_ticket_pdf(ticket, qr_code_path):
+    buffer = BytesIO()
+    
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 750, "Northwest Airlines")
+    p.drawString(100, 700, "Ticket Summary")
+    p.drawString(100, 650, f"Ticket ID: {ticket.id}")
+    p.drawString(100, 600, f"Passenger Name: {ticket.passengers.first().first_name} {ticket.passengers.first().last_name}")
+    p.drawString(100, 550, f"Departure Date: {ticket.depart_flight.depart_time}")
+
+    p.drawString(100, 500, f"Arrival Date: {ticket.depart_flight.arrival_time}")
+    p.drawString(100, 450, f"Total Cost: {ticket.total_cost}")
+    p.drawImage(qr_code_path, 400, 200, width=2*inch, height=2*inch)
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    pdf_data = buffer.getvalue()
+    return pdf_data
+
 
 @login_required
 def manage_reservations(request):
