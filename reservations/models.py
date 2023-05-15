@@ -65,15 +65,11 @@ class Ticket(models.Model):
     return_flight = models.ForeignKey(Flight, on_delete=models.CASCADE, null=True, default=None,  related_name='return_ticket')
     passengers = models.ManyToManyField(Passenger)
     total_cost = models.DecimalField(max_digits=8, decimal_places=2)
-    seatClass = models.CharField(max_length=20, default="Economy")
     date_created = models.DateTimeField(auto_now_add=True)
     paid = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.passengers} - {self.depart_flight}"
-    
-    def updateSeatClass(self, newSeatClass):
-        self.seatClass = newSeatClass
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

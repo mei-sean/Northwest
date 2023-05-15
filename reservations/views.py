@@ -193,9 +193,8 @@ def passenger_info_view(request, num_tickets):
         depart_flight = Flight.objects.get(id=depart_flight_id)
         
         return_flight = Flight.objects.get(id=return_flight_id) if return_flight_id else None
-        
+
         total_cost = calculate_total_cost(depart_flight, return_flight, num_tickets)
-        
         ticket = Ticket.objects.create(user=request.user, depart_flight=depart_flight, return_flight=return_flight, total_cost=total_cost)
 
         for i in range(1, num_tickets+1):
