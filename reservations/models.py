@@ -71,7 +71,6 @@ class Ticket(models.Model):
     def __str__(self):
         return f"{self.passengers} - {self.depart_flight}"
 
-
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthdate = models.DateField(null=True, blank=True)

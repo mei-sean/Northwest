@@ -25,7 +25,10 @@
                     <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                     <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                     <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
-                    <p><b>Price:</b> ${{ flight.price}}</p>
+                    <p><INPUT TYPE="Radio" class="PriceOptionsDepart" id="PriceOptionsEconomy" Value="Economy" onclick="seatClassDepart()"> Economy $300
+                    <p><INPUT TYPE="Radio" class="PriceOptionsDepart" id="PriceOptionsBusiness" Value="Business" onclick="seatClassDepart()"> Business $350
+                      <p><INPUT TYPE="Radio" class="PriceOptionsDepart" id="PriceOptionsFirst" Value="First" onclick="seatClassDepart()"> First Class $600
+                    <p><b>Price:</b> ${{flight.price}}</p>
                     <input type="checkbox" name="depart_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                     <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                   </div>
@@ -45,6 +48,9 @@
                       <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                       <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                       <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
+                      <p><INPUT TYPE="Radio" class="PriceOptionsReturn" id="PriceOptionsEconomy" Value="Economy" onclick="seatClassReturn()"> Economy $300</p>
+                        <p><INPUT TYPE="Radio" class="PriceOptionsReturn" id="PriceOptionsBusiness" Value="Business" onclick="seatClassReturn()"> Business $350</p>
+                          <p><INPUT TYPE="Radio" class="PriceOptionsReturn" id="PriceOptionsFirst" Value="First" onclick="seatClassReturn()"> First Class $600</p>
                       <p><b>Price:</b> ${{ flight.price}}</p>
                       <input type="checkbox" name="return_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                       <label for="flight{{flight.id}}"><i>Book this flight</i></label>
@@ -75,6 +81,31 @@
 
     saveFlightsBtn.disabled = !(departSelected || returnSelected);
   }
+
+  function seatClassDepart() {
+    var seatButtonsDepart = document.getElementsByClassName("PriceOptionsDepart");
+
+    for (let i = 0; i < seatButtonsDepart.length; i++)
+    {
+      if (seatButtonsDepart[i].checked == false)
+      {
+        seatButtonsDepart[i].disabled = true;
+      }
+    }
+  }
+
+  function seatClassReturn() {
+    var seatButtonsReturn = document.getElementsByClassName("PriceOptionsReturn");
+
+    for (let i = 0; i < seatButtonsReturn.length; i++)
+    {
+      if (seatButtonsReturn[i].checked == false)
+      {
+        seatButtonsReturn[i].disabled = true;
+      }
+    }
+  }
+
 
   function goBack() {
     window.history.back();

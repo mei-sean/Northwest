@@ -40,8 +40,9 @@ If you want to view our project on your local machine, please follow these instr
    ```  
   2. Setup a virtual environment using something like 'venv' or 'pipenv'.   
   4. Activate your virtual environment. If you need help with virtual environments, please refer to [the official documentation for virtual environments in python.](https://docs.python.org/3/tutorial/venv.html)
-  3. Run the following command: ```pip install -r requirements.txt```     
-  4. Run the command: ```pip manage.py runserver``` and visit the url shown in the terminal.
+  3. Run the following command: ```pip install -r requirements.txt```
+  4. Run the following ```cd northwest```   
+  5. Run the command: ```python manage.py runserver``` and visit the url shown in the terminal.
 
 ### Usage
 
@@ -50,18 +51,19 @@ If you want to view our project on your local machine, please follow these instr
 * Search for flights
 * Book flights
 * Manage flight reservation
+* Select different ticket tiers
 
 ### Roadmap
 
 Features planned for the future
 * Low cost calendar view
 * Points reward system
-* Different ticket tiers
 * Check in 
-* Flight reservation confirmation number
+* Flight reservation confirmation number (in progress)
 
 Fix bugs
 * Set limit of passengers per flight
+* Different ticket tiers functioning properly
 
 ### Contributing
 

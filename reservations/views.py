@@ -21,7 +21,8 @@ import tempfile
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-
+import random
+import string
 
 
 
@@ -73,7 +74,6 @@ def my_account(request):
 
 @login_required
 def search(request):
-    
 
     if request.method == 'POST':
         #on post we request the airports and date, 
@@ -150,7 +150,18 @@ def list_flights(request):
             return_flights = None
 
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date})
-        
+
+def updatePriceForSeatClass(aFlight, seatClass):
+        if seatClass == "Economy":
+            aFlight.price = aFlight.economy_fare
+
+        elif seatClass == "Business":
+            aFlight.price = aFlight.business_fare
+
+        else:
+            aFlight.price = aFlight.first_fare
+
+        return aFlight.price
 
 def calculate_total_cost(depart_flight, return_flight, num_passengers):
     #Calculates the total cost of a ticket based on the flights and number of passengers.
@@ -173,6 +184,10 @@ def calculate_total_cost(depart_flight, return_flight, num_passengers):
     carrier imposed fees 100.00'''
     
     return total_cost
+
+def generateConfirmationCode():
+    confirmCode = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return confirmCode
         
 @login_required
 def passenger_info_view(request, num_tickets):
@@ -183,9 +198,10 @@ def passenger_info_view(request, num_tickets):
         depart_flight = Flight.objects.get(id=depart_flight_id)
         
         return_flight = Flight.objects.get(id=return_flight_id) if return_flight_id else None
-        
+
         total_cost = calculate_total_cost(depart_flight, return_flight, num_tickets)
-        
+        confirmationCode = generateConfirmationCode()
+        print("Here is your confirmation code:" + confirmationCode)
         ticket = Ticket.objects.create(user=request.user, depart_flight=depart_flight, return_flight=return_flight, total_cost=total_cost)
 
         for i in range(1, num_tickets+1):
