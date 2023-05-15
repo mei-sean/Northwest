@@ -34,10 +34,11 @@ class Command(BaseCommand):
                                 arrival_time=arrival_time,
                                 duration = duration,
                                 price = 300.00,
+                                economy_fare = 300,
+                                business_fare = 350.0,
+                                first_fare = 600.0,
                                 distance=distance,
-                                
-                                
-                            )
+                            )    
                             flight.save()
                             flight.depart_day.add(Week.objects.get(number=current_date.weekday()))
                         
