@@ -73,7 +73,6 @@ def my_account(request):
 
 @login_required
 def search(request):
-    
 
     if request.method == 'POST':
         #on post we request the airports and date, 
@@ -150,7 +149,18 @@ def list_flights(request):
             return_flights = None
 
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date})
-        
+
+def updatePriceForSeatClass(aFlight, seatClass):
+        if seatClass == "Economy":
+            aFlight.price = aFlight.economy_fare
+
+        elif seatClass == "Business":
+            aFlight.price = aFlight.business_fare
+
+        else:
+            aFlight.price = aFlight.first_fare
+
+        return aFlight.price
 
 def calculate_total_cost(depart_flight, return_flight, num_passengers):
     #Calculates the total cost of a ticket based on the flights and number of passengers.

@@ -25,7 +25,10 @@
                     <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                     <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                     <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
-                    <p><b>Price:</b> ${{ flight.price}}</p>
+                    <p><INPUT TYPE="Radio" id="PriceOptionsEconomy" Value="Economy" onclick="seatClassEconomy()"> Economy $300
+                    <p><INPUT TYPE="Radio" id="PriceOptionsBusiness" Value="Business" onclick="seatClassBusiness()"> Business $350
+                      <p><INPUT TYPE="Radio" id="PriceOptionsFirst" Value="First" onclick="seatClassFirst()"> First Class $600
+                    <p><b>Price:</b> ${{flight.price}}</p>
                     <input type="checkbox" name="depart_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                     <label for="flight{{flight.id}}"><i>Book this flight</i></label>
                   </div>
@@ -45,6 +48,9 @@
                       <p><b>Destination Airport:</b> {{ flight.arrival_airport.name }} ({{ flight.arrival_airport.code }})</p>
                       <p><b>Departure time:</b> {{ flight.depart_time.time}}</p>
                       <p><b>Arrival time:</b> {{ flight.arrival_time.time}}</p>
+                      <p><INPUT TYPE="Radio" id="PriceOptionsEconomy" Value="Economy" onclick="seatClassEconomy()"> Economy $300</p>
+                        <p><INPUT TYPE="Radio" id="PriceOptionsBusiness" Value="Business" onclick="seatClassBusiness()"> Business $350</p>
+                          <p><INPUT TYPE="Radio" id="PriceOptionsFirst" Value="First" onclick="seatClassFirst()"> First Class $600</p>
                       <p><b>Price:</b> ${{ flight.price}}</p>
                       <input type="checkbox" name="return_flights[]" value="{{flight.id}}" onclick="checkSelectedFlights();">
                       <label for="flight{{flight.id}}"><i>Book this flight</i></label>
@@ -75,6 +81,73 @@
 
     saveFlightsBtn.disabled = !(departSelected || returnSelected);
   }
+
+  function seatClassEconomy() {
+    var economy = document.getElementById("PriceOptionsEconomy");
+    
+    var business = document.getElementById("PriceOptionsBusiness");
+    var first = document.getElementById("PriceOptionsFirst");
+    
+    // deselect
+    if (business.disabled == true)
+    {
+      business.disabled = false;
+      first.disabled = false;
+      economy.checked = false;
+    }
+
+    // select economy
+    else
+    {
+      business.disabled = true;
+      first.disabled = true;
+    }
+  }
+
+  function seatClassBusiness() {
+    var business = document.getElementById("PriceOptionsBusiness");
+    
+    var economy = document.getElementById("PriceOptionsEconomy");
+    var first = document.getElementById("PriceOptionsFirst");
+
+     // deselect
+     if (economy.disabled == true)
+    {
+      economy.disabled = false;
+      first.disabled = false;
+      business.checked = false;
+    }
+
+    // select business
+    else
+    {
+      economy.disabled = true;
+      first.disabled = true;
+    }
+  }
+
+  function seatClassFirst() {
+    var first = document.getElementById("PriceOptionsFirst");
+
+    var economy = document.getElementById("PriceOptionsEconomy");
+    var business = document.getElementById("PriceOptionsBusiness");
+     
+    // deselect
+     if (economy.disabled == true)
+    {
+      economy.disabled = false;
+      business.disabled = false;
+      first.checked = false;
+    }
+
+    // select first
+    else
+    {
+      economy.disabled = true;
+      business.disabled = true;
+    }
+  }
+
 
   function goBack() {
     window.history.back();

@@ -34,7 +34,7 @@
         <tr>
           <td>{{ ticket.depart_flight }}</td>
           <td>{{ passenger.first_name }} {{ passenger.last_name }}</td>
-          <td>$300.00</td>
+          <td>${{flight.price}}</td>
         </tr>
         {% endfor %}
       </table>
