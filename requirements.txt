@@ -1,3 +1,6 @@
 asgiref==3.6.0
 Django==4.2
 sqlparse==0.4.4
+geopy==2.3.0
+qrcode==7.4.2
+reportlab==4.0.0
