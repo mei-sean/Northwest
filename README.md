@@ -59,7 +59,7 @@ Features planned for the future
 * Low cost calendar view
 * Points reward system
 * Check in 
-* Flight reservation confirmation number
+* Flight reservation confirmation number (in progress)
 
 Fix bugs
 * Set limit of passengers per flight
