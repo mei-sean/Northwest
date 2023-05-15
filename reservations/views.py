@@ -25,7 +25,7 @@ import random
 import string
 
 
-
+# register for a new account
 def register(request):
     if request.method == 'POST':
         form = BootstrapUserCreationForm(request.POST)
@@ -38,7 +38,7 @@ def register(request):
     return render(request, 'reservations/register.html', {'form': form})
 
 
-
+# login page
 def login_view(request):
     if request.method == 'POST':
         form = BootstrapAuthenticationForm(data=request.POST)
@@ -55,23 +55,28 @@ def login_view(request):
         form = BootstrapAuthenticationForm()
     return render(request, 'reservations/login.html', {'form': form})
 
+# logout page
 @login_required
 def logout_view(request):
     logout(request)
     return redirect('login')
 
+# home page
 @login_required
 def home(request):
     return render(request, 'reservations/home.html')
 
+# welcome page
 @login_required
 def welcome(request):
     return render(request, 'reservations/welcome.html')
 
+# account profile page
 @login_required
 def my_account(request):
     return render(request, 'reservations/my_account.html')
 
+# searching flights to book page. User enters depature and arrival location, date, and number of tickets.
 @login_required
 def search(request):
 
@@ -104,7 +109,7 @@ def search(request):
         airports = Airport.objects.all()
         return render(request, 'reservations/search.html', {'airports': airports, 'error_message': error_message})
     
-
+# generates all the flights filtered based on a search
 @login_required
 def list_flights(request):
     #function to list flights
@@ -144,13 +149,15 @@ def list_flights(request):
                 
             )
             
-            
+            # for a round-trip flight
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date, 'return_flights': return_flights, 'return_date': return_date})
         else:
+            # for a one way flight
             return_flights = None
 
             return render(request, 'reservations/flights_list.html', {'flights': flights, 'departure_date': departure_date})
 
+# changes the flight price based on the seat tier class the user chooses
 def updatePriceForSeatClass(aFlight, seatClass):
         if seatClass == "Economy":
             aFlight.price = aFlight.economy_fare
@@ -185,10 +192,11 @@ def calculate_total_cost(depart_flight, return_flight, num_passengers):
     
     return total_cost
 
+# creates a 6 alphanumeric character confirmation code
 def generateConfirmationCode():
     confirmCode = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
     return confirmCode
-        
+     
 @login_required
 def passenger_info_view(request, num_tickets):
     if request.method == 'POST':
@@ -221,6 +229,7 @@ def passenger_info_view(request, num_tickets):
         user_dob = user_profile.birthdate.strftime('%Y-%m-%d') if user_profile.birthdate else ''
         return render(request, 'reservations/passenger_information.html', {'ticket_range': ticket_range, 'user_dob': user_dob})
 
+# checkout page with a ticket summary of the flight and total cost
 @login_required
 def payment_view(request, ticket_id):
     ticket = Ticket.objects.get(id=ticket_id)
@@ -253,7 +262,7 @@ def payment_view(request, ticket_id):
         passengers = ticket.passengers.all()
         return render(request, 'reservations/payment.html', {'ticket': ticket, 'passengers': passengers})
 
-    
+# creates a pdf of the ticket reservation order with a qr code.
 def generate_ticket_pdf(ticket, qr_code_path):
     buffer = BytesIO()
     
@@ -273,7 +282,7 @@ def generate_ticket_pdf(ticket, qr_code_path):
     pdf_data = buffer.getvalue()
     return pdf_data
 
-
+# Allows a user to manage their flight reservations
 @login_required
 def manage_reservations(request):
     user_tickets = Ticket.objects.filter(user=request.user, paid=True)
@@ -294,6 +303,7 @@ def cancel_reservation(request, ticket_id):
     messages.success(request, 'Your reservation has been successfully canceled.')
     return redirect('manage_reservations')
 
+# Allows a passenger to cancel their reservation flight
 @login_required
 def cancel_passenger(request, ticket_id, passenger_id):
     ticket = Ticket.objects.get(id=ticket_id)
@@ -313,7 +323,7 @@ def cancel_passenger(request, ticket_id, passenger_id):
     return redirect('manage_reservations')
 
     
-
+# Update user information page
 @login_required
 def update_user(request):
     if request.method == 'POST':

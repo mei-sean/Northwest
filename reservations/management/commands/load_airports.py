@@ -2,6 +2,7 @@ import csv
 from reservations.models import Airport
 from django.core.management.base import BaseCommand
 
+# loads in the top 50 US airports into the database
 class Command(BaseCommand):
     help = 'Loads the top 50 US airports into the database'
 

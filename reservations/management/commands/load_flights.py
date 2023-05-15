@@ -6,6 +6,7 @@ import math
 from reservations.models import Airport, Flight, Week
 from django.core.management.base import BaseCommand
 
+# loads in generated flights from each airport to another airport into the database 
 class Command(BaseCommand):
     help = 'load flights'
 
