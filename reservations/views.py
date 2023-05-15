@@ -21,7 +21,8 @@ import tempfile
 from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
-
+import random
+import string
 
 
 
@@ -183,6 +184,10 @@ def calculate_total_cost(depart_flight, return_flight, num_passengers):
     carrier imposed fees 100.00'''
     
     return total_cost
+
+def generateConfirmationCode():
+    confirmCode = "".join(random.choices(string.ascii_uppercase + string.digits, k=6))
+    return confirmCode
         
 @login_required
 def passenger_info_view(request, num_tickets):
@@ -195,6 +200,8 @@ def passenger_info_view(request, num_tickets):
         return_flight = Flight.objects.get(id=return_flight_id) if return_flight_id else None
 
         total_cost = calculate_total_cost(depart_flight, return_flight, num_tickets)
+        confirmationCode = generateConfirmationCode()
+        print("Here is your confirmation code:" + confirmationCode)
         ticket = Ticket.objects.create(user=request.user, depart_flight=depart_flight, return_flight=return_flight, total_cost=total_cost)
 
         for i in range(1, num_tickets+1):
