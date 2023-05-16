@@ -50,15 +50,15 @@ If you want to view our project on your local machine, please follow these instr
 * Search for flights
 * Book flights
 * Manage flight reservation
-* Select different ticket tiers
+* Low cost calendar view (in progress)
+* Flight reservation confirmation number (in progress)
 
 ### Roadmap
 
 Features planned for the future
-* Low cost calendar view
+* Flight reservation confirmation number (in progress)
 * Points reward system
 * Check in 
-* Flight reservation confirmation number (in progress)
 
 Fix bugs
 * Set limit of passengers per flight
@@ -66,10 +66,10 @@ Fix bugs
 
 ### Contributing
 
-* Garrett Russell
-* Sean Mei
-* Anh Thu Pham
-* Jose Cortes
+* Garrett Russell (https://github.com/gkrussell4)
+* Sean Mei (https://github.com/mei-sean)
+* Anh Thu Pham (https://github.com/atpham496)
+* Jose Cortes (https://github.com/torta19)
 
 ### License
 
