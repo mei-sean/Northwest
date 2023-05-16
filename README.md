@@ -38,11 +38,10 @@ If you want to view our project on your local machine, please follow these instr
    ```sh
    git clone <https://github.com/SJSU-CMPE133-2023-Spring/northwest>
    ```  
-  2. Setup a virtual environment using something like 'venv' or 'pipenv'.   
-  3. Activate your virtual environment. If you need help with virtual environments, please refer to [the official documentation for virtual environments in python.](https://docs.python.org/3/tutorial/venv.html)
-  4. Run the following ```cd northwest```
-  5. Run the following command: ```pip install -r requirements.txt```   
-  6. Run the command: ```python manage.py runserver``` and visit the url shown in the terminal.
+  2. Setup a virtual environment using something like 'venv' or 'pipenv'. For example ```python -m venv nameOfVM``` where you can change nameOfVM to whatever you choose.    
+  4. Activate your virtual environment. If you need help with virtual environments, please refer to [the official documentation for virtual environments in python.](https://docs.python.org/3/tutorial/venv.html)
+  3. Run the following command: ```pip install -r requirements.txt```  
+  4. Run the command: ```python manage.py runserver``` and visit the url shown in the terminal.
 
 ### Usage
 
