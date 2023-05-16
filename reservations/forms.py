@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 
-
+# creates the form to make a new user.
 class BootstrapUserCreationForm(UserCreationForm):
     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput(attrs={'class': 'form-control'}))
@@ -15,10 +15,12 @@ class BootstrapUserCreationForm(UserCreationForm):
         model = User
         fields = ('username', 'email', 'password1', 'password2')
 
+# creates the form to log in
 class BootstrapAuthenticationForm(AuthenticationForm):
     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'class': 'form-control'}))
     password = forms.CharField(label="Password", widget=forms.PasswordInput(attrs={'class': 'form-control'}))
 
+# creates the form to update user account information
 class UpdateUserForm(forms.ModelForm):
     birthdate = forms.DateField(required=True, widget=forms.TextInput(attrs={'type': 'date'}))
     street_address = forms.CharField(max_length=255, required=True)
@@ -37,6 +39,7 @@ class UpdateUserForm(forms.ModelForm):
             self.fields['zip_code'].initial = self.instance.profile.zip_code
             self.fields['state'].initial = self.instance.profile.state
 
+    # saving the updated user information to the database
     def save(self, *args, **kwargs):
         user = super().save(*args, **kwargs)
         user.profile.birthdate = self.cleaned_data['birthdate']

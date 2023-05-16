@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+# Contains all the database tables
 
 class Airport(models.Model):
     code = models.CharField(max_length=3)
