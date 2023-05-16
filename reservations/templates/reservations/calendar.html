@@ -1,5 +1,64 @@
 {% extends "base.html" %} {% block content %}
+<style>
+  th, td{
+    border: 2px solid black;
+    padding: 30px 30px;
+    text-align: center;
+  }
+  h2 {
+    text-align: center;
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+  }
+
+  .arrow {
+    border: none;
+    font-size: large;
+    border-width: 0 5px 5px 0;
+    display: inline-block;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 430px;
+  }
+
+</style>
+
+<div class="bg-image" style="
+  background-image: url('/static/crater-lake-national-park.jpg');
+  background-size: cover;
+  background-position: center;
+">
+
 <div class="container">
-  <h1>Welcome to the calendar page (under construction)!</h1>
+  <h1>Welcome to the calendar page (under construction)!</h1><br>
+  <table>
+    <h2>{{monthName}} {{year}}</h2>
+    <tr>
+      <td>Monday</td>
+      <td>Tuesday</td>
+      <td>Wednesday</td>
+      <td>Thursday</td>
+      <td>Friday</td>
+      <td>Saturday</td>
+      <td>Sunday</td>
+      
+      <tr>
+        {% for day in calendarMonth %}
+          {% if day == "," %}
+            <tr></tr>
+            {%elif day == " " %}
+            <td> </td>
+          {% else %}
+          <td onclick="loadDay()"><div class="dates"><strong>{{day}}</strong></div> $300</td>
+          {% endif %}
+        {% endfor %}
+      </tr>
+    </tr>
+    <button class = "arrow">&larr;</button>
+    <button class = "arrow">&rarr;</button>
+  </table>
 </div>
 {% endblock %}

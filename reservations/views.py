@@ -22,7 +22,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.template.loader import render_to_string
 from django.conf import settings
 import random
-import string
+import string, calendar
 
 
 # register for a new account
@@ -133,7 +133,7 @@ def list_flights(request):
         arrival_airport = Airport.objects.get(code=arrival_airport_code)
 
         departure_date = datetime.strptime(departure_date_str, '%Y-%m-%d').date()
-        
+        showCalendar = request.GET.get('myCheckbox')
 
         flights = Flight.objects.filter(
             depart_airport=depart_airport,
@@ -360,3 +360,21 @@ def change_password(request):
 
     return render(request, 'reservations/change_password.html', {'form': form})
 
+def createCalendar(year, month):
+    cal = calendar.monthcalendar(year,month)
+    monthStringArray = []
+    for week in cal:
+        # Formatting each day in a week
+        formatted_week = [str(day) if day != 0 else ' ' for day in week]
+
+        monthStringArray.extend(formatted_week)
+        monthStringArray.extend(',')
+    return monthStringArray
+
+@login_required
+def showCalendarMonth(request, year, month):
+    date = datetime(year, month, 1)
+    monthName = date.strftime("%B")
+    calendarMonth = createCalendar(year,month)
+    print(calendarMonth)
+    return render(request, 'reservations/calendar.html', {'calendarMonth':calendarMonth, 'year': year, 'monthName': monthName})

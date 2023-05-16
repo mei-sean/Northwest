@@ -18,4 +18,5 @@ urlpatterns = [
     path('cancel_passenger/<int:ticket_id>/<int:passenger_id>/', views.cancel_passenger, name='cancel_passenger'),
     path('update_user/', views.update_user, name='update_user'),
     path('change_password/', views.change_password, name='change_password'),
+    path('calendar/<int:year>/<int:month>', views.showCalendarMonth, name='calendar')
 ]
