@@ -23,7 +23,7 @@ We used the Django framework flavored with bootstrap to make our website.
 
 - [Django](https://www.djangoproject.com/)
 - [HTML](https://devdocs.io/html/)
-- [CSS]((https://devdocs.io/css/)
+- [CSS](https://devdocs.io/css/)
 - [Javascript](https://developer.mozilla.org/en-US/docs/Web/JavaScript))
 - [Python](https://www.python.org/)
 
