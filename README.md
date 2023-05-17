@@ -10,8 +10,8 @@
     - [Installation](#installation)
   - [Usage](#usage)
   - [Roadmap](#roadmap)
-  - [Contributing](#contributing)
   - [License](#license)
+  - [Contact](#Contact)
 
 ## About the Project
 
@@ -64,13 +64,13 @@ Fix bugs
 * Set limit of passengers per flight
 * Different ticket tiers functioning properly
 
-### Contributing
+### License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+### Contact
 
 * Garrett Russell (https://github.com/gkrussell4)
 * Sean Mei (https://github.com/mei-sean)
 * Anh Thu Pham (https://github.com/atpham496)
 * Jose Cortes (https://github.com/torta19)
-
-### License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
